@@ -5,6 +5,7 @@
 #include "jsonxx.h"
 #include <fstream>
 #include <iomanip>
+#include <vector>
 
 using std::setw;
 using namespace jsonxx;
@@ -14,12 +15,12 @@ class AirlineGraph
     public:
         AirlineGraph();
         virtual ~AirlineGraph();
-        int mAirportNumber;
-        int mAirlineNumber;
+        int mAirportNumber; //机场数量
         Airport** mAirportHeadArray;
-        Airline** mAirlineArray;
+        vector<Airline*>* mAirlineVector;
         Airport* FindAirportByName(string name);
-        void InsertAirline(Airport* airport,Airline* airline);
+        int GetAirlineNumber();
+        void InsertAirlineGraph(Airport* airport,Airline* airline);
         void ShowAirlineGraph();
         void WriteAirlineJson();
     protected:

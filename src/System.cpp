@@ -9,3 +9,9 @@ System::~System()
 {
     //dtor
 }
+
+
+void System::InsertAirlineInfo()
+{
+
+}
