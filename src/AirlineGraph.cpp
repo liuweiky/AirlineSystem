@@ -12,7 +12,7 @@ AirlineGraph::~AirlineGraph()
 {
     //dtor
 }
-
+//读入机场信息
 void AirlineGraph::LoadAirport()
 {
     Array AirportArray;
@@ -24,7 +24,7 @@ void AirlineGraph::LoadAirport()
     s=tmp.str();
     AirportArray.parse(s);  //解析json
     mAirportNumber=AirportArray.size();
-    cout<<mAirportNumber<<endl;
+  //  cout<<mAirportNumber<<endl;
     mAirportHeadArray=new Airport*[mAirportNumber];
     for(int i=0;i<mAirportNumber;i++)   //生成顶点表
     {
@@ -36,7 +36,7 @@ void AirlineGraph::LoadAirport()
     }
     //cout<<AirportArray.json();
 }
-
+//读入航线信息
 void AirlineGraph::LoadAirline()
 {
     Array AirlineArray;
@@ -75,7 +75,7 @@ void AirlineGraph::LoadAirline()
     infile.close();
     //cout<<AirlineArray.json();
 }
-
+//通过航班号查询航班
 Airport* AirlineGraph::FindAirportByName(string name)
 {
     for(int i=0;i<mAirportNumber;i++)
@@ -83,7 +83,7 @@ Airport* AirlineGraph::FindAirportByName(string name)
         if(mAirportHeadArray[i]->mAirportName==name)
         {
 
-            //cout<<mAirportHeadArray[i]->mAirportName;
+          //  cout<<mAirportHeadArray[i]->mAirportName;
             return mAirportHeadArray[i];
         }
     }
@@ -91,6 +91,7 @@ Airport* AirlineGraph::FindAirportByName(string name)
 }
 
 void AirlineGraph::InsertAirlineGraph(Airport* airport,Airline* airline)
+//插入航班 创建时调用
 {
     Airline* line=airport->mAdjAirline;
     if(line==NULL)
@@ -106,7 +107,7 @@ void AirlineGraph::InsertAirlineGraph(Airport* airport,Airline* airline)
         line->mNextAirline=airline;
     }
 }
-
+//展示航班
 void AirlineGraph::ShowAirlineGraph()
 {
     cout.setf(ios::left);
@@ -137,7 +138,7 @@ void AirlineGraph::ShowAirlineGraph()
     }
     cout<<endl<<"======================================================================================================================"<<endl;
 }
-
+//生成文件保存
 Array AirlineGraph::GenerateAirlineJson()
 {
     Array jsonArray;
@@ -219,4 +220,62 @@ void AirlineGraph::InsertAirline(Airline* airline)
 string AirlineGraph::GetAirportLocation(string airportName)
 {
     return FindAirportByName(airportName)->mLocation;
+}
+//查询某个航线的情况如输入航班号
+void AirlineGraph::FindByAirlineName(string name)
+{
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airport* airport=mAirportHeadArray[i];
+        Airline* airline=airport->mAdjAirline;
+        while(airline!=NULL)
+        {
+            if(airline->mAirlineName==name)
+            {
+                cout<<"航班号:"<<airline->mAirlineName<<endl;
+                cout<<"公司:"<<airline->mCompany<<endl;
+                cout<<"起始城市:"<<airline->mDepartureCity<<endl;
+                cout<<"起飞机场:"<<airline->mDepartureAirport<<endl;
+                cout<<"到达城市:"<<airline->mArrivalCity<<endl;
+                cout<<"到达机场:"<<airline->mArrivalAirport<<endl;
+                cout<<"起飞时间:"<<airline->mDepartureTime<<endl;
+                cout<<"到达时间:"<<airline->mArrivalTime<<endl;
+                cout<<"机型:"<<airline->mAirplaneModel<<endl;
+                cout<<"价格:"<<airline->mPrice<<endl;
+                cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
+                cout<<"满载:"<<airline->mCapacity<<endl;
+                cout<<"当前人数:"<<airline->mCurrentNumber<<endl;
+            }
+            airline=airline->mNextAirline;
+        }
+    }
+}
+//按价格排序
+void AirlineGraph::SortByPrize(string name1,string name2)
+{
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airport* airport=mAirportHeadArray[i];
+        Airline* airline=airport->mAdjAirline;
+        while(airline!=NULL)
+        {
+            if(airline->mDepartureCity==name1&&airline->mArrivalCity==name2)
+            {
+                cout<<"航班号:"<<airline->mAirlineName<<endl;
+                cout<<"公司:"<<airline->mCompany<<endl;
+                cout<<"起始城市:"<<airline->mDepartureCity<<endl;
+                cout<<"起飞机场:"<<airline->mDepartureAirport<<endl;
+                cout<<"到达城市:"<<airline->mArrivalCity<<endl;
+                cout<<"到达机场:"<<airline->mArrivalAirport<<endl;
+                cout<<"起飞时间:"<<airline->mDepartureTime<<endl;
+                cout<<"到达时间:"<<airline->mArrivalTime<<endl;
+                cout<<"机型:"<<airline->mAirplaneModel<<endl;
+                cout<<"价格:"<<airline->mPrice<<endl;
+                cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
+                cout<<"满载:"<<airline->mCapacity<<endl;
+                cout<<"当前人数:"<<airline->mCurrentNumber<<endl;
+            }
+            airline=airline->mNextAirline;
+        }
+    }
 }

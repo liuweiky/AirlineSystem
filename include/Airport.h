@@ -7,13 +7,13 @@ using namespace std;
 class Airport
 {
     public:
-        Airport();
+        Airport();                  //构造函数
         virtual ~Airport();
-        int No;
-        string mLocation;
-        string mAirportName;
-        string mShortName;
-        Airline* mAdjAirline;
+        int No;                     //机场编号
+        string mLocation;           //机场地点
+        string mAirportName;        //机场名字
+        string mShortName;          //机场缩写
+        Airline* mAdjAirline;       //航线邻接顶点
     protected:
 
     private:
