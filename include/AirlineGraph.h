@@ -3,6 +3,7 @@
 #include "Airport.h"
 #include "Airline.h"
 #include "jsonxx.h"
+#include "BookOrder.h"
 #include <fstream>
 #include <iomanip>
 #include <vector>
@@ -28,6 +29,7 @@ class AirlineGraph
         void ShowAirlineGraph();    //打印输出边链表
         void WriteAirlineJson();    //写json到文件
         void Book(Airline* airline);    //接收外部订票信息，更新余票
+        void Unsubscribe(BookOrder* bookOrder);
         vector<int>* GetAirportIdByLocation(string loc);    //通过城市获取该城市所有机场的Id
         string GetAirportLocation(string airportName);  //获得机场所在城市
         vector<Airline*>* FindAirlineByName(string name);//通过航班号查找

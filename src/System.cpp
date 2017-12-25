@@ -3,13 +3,8 @@
 System::System()
 {
     mAirlineGraph=new AirlineGraph();
-    ifstream infile;
-    string s;
-    infile.open("Book.json");
-    ostringstream tmp;
-    tmp<<infile.rdbuf();
-    s=tmp.str();
-    mBookArray.parse(s);  //解析json
+    mBookOrderVector=NULL;
+    LoadBookOrder();
     /*ofstream outfile;
     outfile.open("Airline.json");
     Array jsonArray=GenerateAirlineJson();
@@ -23,6 +18,40 @@ System::~System()
     //dtor
 }
 
+void System::LoadBookOrder()
+{
+    ifstream infile;
+    string s;
+    infile.open("Book.json");
+    ostringstream tmp;
+    tmp<<infile.rdbuf();
+    infile.close();
+    s=tmp.str();
+    Array BookArray;
+    BookArray.parse(s);  //解析json
+    if(mBookOrderVector!=NULL)
+    {
+        delete mBookOrderVector;
+    }
+    mBookOrderVector=new vector<BookOrder*>();
+    for(int i=0;i<BookArray.size();i++)  //保存航线到vector
+    {
+        BookOrder* bookOrder=new BookOrder();
+        bookOrder->mName=BookArray.get<Object>(i).get<String>("姓名");
+        bookOrder->mIdNumber=BookArray.get<Object>(i).get<String>("证件号");
+        bookOrder->mAirlineName=BookArray.get<Object>(i).get<String>("航班号");
+        bookOrder->mCompany=BookArray.get<Object>(i).get<String>("公司");
+        bookOrder->mDepartureAirport=BookArray.get<Object>(i).get<String>("起飞机场");
+        bookOrder->mArrivalAirport=BookArray.get<Object>(i).get<String>("到达机场");
+        bookOrder->mDepartureTime=BookArray.get<Object>(i).get<String>("起飞时间");
+        bookOrder->mArrivalTime=BookArray.get<Object>(i).get<String>("到达时间");
+        bookOrder->mAirplaneModel=BookArray.get<Object>(i).get<String>("机型");
+        bookOrder->mDepartureCity=BookArray.get<Object>(i).get<String>("起始城市");
+        bookOrder->mArrivalCity=BookArray.get<Object>(i).get<String>("到达城市");
+        bookOrder->mPrice=BookArray.get<Object>(i).get<Number>("购买价格");
+        mBookOrderVector->push_back(bookOrder);
+    }
+}
 
 void System::InsertAirlineInfo()
 {
@@ -184,17 +213,6 @@ void System::Book()
         jsonObj<<"机型"<<airline->mAirplaneModel;
         jsonObj<<"购买价格"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0));
 
-        mBookArray<<jsonObj;
-        cout<<mBookArray.json();
-
-        ofstream outfile;
-        outfile.open("Book.json");
-
-        outfile<<mBookArray.json();
-        outfile.close();
-
-        mAirlineGraph->Book(airline);
-
         cout<<"==========================================="<<endl;
         cout<<endl;
         cout<<"================ 预定成功 ================="<<endl;
@@ -210,9 +228,23 @@ void System::Book()
         cout<<setw(12)<<"起飞时间:"<<airline->mDepartureTime<<endl;
         cout<<setw(12)<<"抵达时间:"<<airline->mArrivalTime<<endl;
         cout<<setw(12)<<"机型:"<<airline->mAirplaneModel<<endl;
-        cout<<setw(12)<<"购买价格"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0))<<endl;
+        cout<<setw(12)<<"购买价格:"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0))<<endl;
         cout<<endl;
         cout<<"==========================================="<<endl;
+
+        Array bookArray=GenerateBookJson();
+        bookArray<<jsonObj;
+        cout<<bookArray.json();
+
+        ofstream outfile;
+        outfile.open("Book.json");
+
+        outfile<<bookArray.json();
+        outfile.close();
+
+        mAirlineGraph->Book(airline);
+
+        LoadBookOrder();
     }
     else if(vec->size()>1)
     {
@@ -277,17 +309,6 @@ void System::Book()
         jsonObj<<"机型"<<airline->mAirplaneModel;
         jsonObj<<"购买价格"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0));
 
-        mBookArray<<jsonObj;
-        cout<<mBookArray.json();
-
-        ofstream outfile;
-        outfile.open("Book.json");
-
-        outfile<<mBookArray.json();
-        outfile.close();
-
-        mAirlineGraph->Book(airline);
-
         cout<<"==========================================="<<endl;
         cout<<endl;
         cout<<"================ 预定成功 ================="<<endl;
@@ -303,8 +324,190 @@ void System::Book()
         cout<<setw(12)<<"起飞时间:"<<airline->mDepartureTime<<endl;
         cout<<setw(12)<<"抵达时间:"<<airline->mArrivalTime<<endl;
         cout<<setw(12)<<"机型:"<<airline->mAirplaneModel<<endl;
-        cout<<setw(12)<<"购买价格"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0))<<endl;
+        cout<<setw(12)<<"购买价格:"<<int(airline->mPrice*(1-airline->mIntDiscount/1000.0))<<endl;
+        cout<<endl;
+        cout<<"==========================================="<<endl;
+
+        Array bookArray=GenerateBookJson();
+        bookArray<<jsonObj;
+        cout<<bookArray.json();
+
+        ofstream outfile;
+        outfile.open("Book.json");
+
+        outfile<<bookArray.json();
+        outfile.close();
+
+        mAirlineGraph->Book(airline);
+
+        LoadBookOrder();
+    }
+}
+
+int System::GetBookOrderNum()
+{
+    return mBookOrderVector->size();
+}
+
+Array System::GenerateBookJson()
+{
+    Array jsonArray;
+    for(int i=0; i<GetBookOrderNum(); i++)
+    {
+        BookOrder* bookOrder=(*mBookOrderVector)[i];
+        Object jsonObj;
+        jsonObj<<"姓名"<<bookOrder->mName;
+        jsonObj<<"证件号"<<bookOrder->mIdNumber;
+        jsonObj<<"航班号"<<bookOrder->mAirlineName;
+        jsonObj<<"公司"<<bookOrder->mCompany;
+        jsonObj<<"起飞机场"<<bookOrder->mDepartureAirport;
+        jsonObj<<"到达机场"<<bookOrder->mArrivalAirport;
+        jsonObj<<"起飞时间"<<bookOrder->mDepartureTime;
+        jsonObj<<"到达时间"<<bookOrder->mArrivalTime;
+        jsonObj<<"起始城市"<<bookOrder->mDepartureCity;
+        jsonObj<<"到达城市"<<bookOrder->mArrivalCity;
+        jsonObj<<"机型"<<bookOrder->mAirplaneModel;
+        jsonObj<<"购买价格"<<bookOrder->mPrice;
+
+        jsonArray<<jsonObj;
+    }
+
+    /*mBookOrderVector=new vector<BookOrder*>();
+    for(int i=0;i<BookArray.size();i++)  //保存航线到vector
+    {
+        BookOrder* bookOrder=new BookOrder();
+        bookOrder->mName=BookArray.get<Object>(i).get<String>("姓名");
+        bookOrder->mIdNumber=BookArray.get<Object>(i).get<String>("证件号");
+        bookOrder->mAirlineName=BookArray.get<Object>(i).get<String>("航班号");
+        bookOrder->mCompany=BookArray.get<Object>(i).get<String>("公司");
+        bookOrder->mDepartureAirport=BookArray.get<Object>(i).get<String>("起飞机场");
+        bookOrder->mArrivalAirport=BookArray.get<Object>(i).get<String>("到达机场");
+        bookOrder->mDepartureTime=BookArray.get<Object>(i).get<String>("起飞时间");
+        bookOrder->mArrivalTime=BookArray.get<Object>(i).get<String>("到达时间");
+        bookOrder->mAirplaneModel=BookArray.get<Object>(i).get<String>("机型");
+        bookOrder->mDepartureCity=BookArray.get<Object>(i).get<String>("起始城市");
+        bookOrder->mArrivalCity=BookArray.get<Object>(i).get<String>("到达城市");
+        bookOrder->mPrice=BookArray.get<Object>(i).get<Number>("购买价格");
+        mBookOrderVector->push_back(bookOrder);
+    }*/
+    return jsonArray;
+}
+
+void System::ShowBookList()
+{
+    cout<<endl;
+    for(int i=0;i<mBookOrderVector->size();i++)
+    {
+        BookOrder* bookOrder=(*mBookOrderVector)[i];
+        cout<<"==========================================="<<endl;
+        cout<<"【"<<i+1<<"】"<<endl;
+        cout<<endl;
+        cout<<setw(12)<<"姓名:"<<bookOrder->mName<<endl;
+        cout<<setw(12)<<"证件号:"<<bookOrder->mIdNumber<<endl;
+        cout<<setw(12)<<"航班号:"<<bookOrder->mAirlineName<<endl;
+        cout<<setw(12)<<"航空公司:"<<bookOrder->mCompany<<endl;
+        cout<<setw(12)<<"出发地:"<<bookOrder->mDepartureCity<<endl;
+        cout<<setw(12)<<"起飞机场:"<<bookOrder->mDepartureAirport<<endl;
+        cout<<setw(12)<<"目的地:"<<bookOrder->mArrivalCity<<endl;
+        cout<<setw(12)<<"着陆机场:"<<bookOrder->mArrivalAirport<<endl;
+        cout<<setw(12)<<"起飞时间:"<<bookOrder->mDepartureTime<<endl;
+        cout<<setw(12)<<"抵达时间:"<<bookOrder->mArrivalTime<<endl;
+        cout<<setw(12)<<"机型:"<<bookOrder->mAirplaneModel<<endl;
+        cout<<setw(12)<<"购买价格:"<<bookOrder->mPrice<<endl;
         cout<<endl;
         cout<<"==========================================="<<endl;
     }
+}
+
+void System::Unsubscribe()
+{
+    ShowBookList();
+    cout<<endl<<"【1】通过姓名退票"<<endl<<"【2】通过证件号退票"<<endl<<"【3】通过以上序号退票"<<endl;
+    int i;
+    cin>>i;
+    while(i>3||i<1)
+    {
+        cout<<endl<<"输入不合法，请重新输入！"<<endl;
+        cin>>i;
+    }
+    string s;
+    switch(i)
+    {
+    case 1:
+        cout<<endl<<"请输入姓名："<<endl;
+        cin>>s;
+        UnsubscribeByName(s);
+        break;
+    case 2:
+        cout<<endl<<"请输入证件号："<<endl;
+        cin>>s;
+        UnsubscribeByIdNum(s);
+        break;
+    case 3:
+        cout<<endl<<"请输入以上序号："<<endl;
+        cin>>i;
+        while(i>GetBookOrderNum()||i<=0)
+        {
+            cout<<endl<<"输入不合法，请重新输入！"<<endl;
+            cin>>i;
+        }
+        UnsubscribeByNo(i);
+        break;
+    }
+
+    Array bookArray=GenerateBookJson();
+    cout<<bookArray.json();
+
+    ofstream outfile;
+    outfile.open("Book.json");
+
+    outfile<<bookArray.json();
+    outfile.close();
+
+    LoadBookOrder();
+
+    ShowBookList();
+}
+
+void System::UnsubscribeByName(string name)
+{
+    vector<BookOrder*>::iterator it;
+    for(it=mBookOrderVector->begin();it!=mBookOrderVector->end();it++)
+    {
+        if((*it)->mName==name)
+        {
+            mAirlineGraph->Unsubscribe(*it);    //必须先在图里取消订单！下面也是！否则删除后迭代器会指向后一个元素
+            mBookOrderVector->erase(it);
+            break;
+        }
+    }
+    if(it==mBookOrderVector->end())
+    {
+        cout<<endl<<"无记录！"<<endl;
+    }
+}
+
+void System::UnsubscribeByIdNum(string Id)
+{
+    vector<BookOrder*>::iterator it;
+    for(it=mBookOrderVector->begin();it!=mBookOrderVector->end();it++)
+    {
+        if((*it)->mIdNumber==Id)
+        {
+            mAirlineGraph->Unsubscribe(*it);
+            mBookOrderVector->erase(it);
+            break;
+        }
+    }
+    if(it==mBookOrderVector->end())
+    {
+        cout<<endl<<"无记录！"<<endl;
+    }
+}
+
+void System::UnsubscribeByNo(int no)
+{
+    vector<BookOrder*>::iterator it=mBookOrderVector->begin();
+    mAirlineGraph->Unsubscribe(*(it+no-1));
+    mBookOrderVector->erase(it+no-1);
 }

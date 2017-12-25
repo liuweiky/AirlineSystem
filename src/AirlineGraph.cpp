@@ -350,6 +350,33 @@ void AirlineGraph::Book(Airline* airline)
     WriteAirlineJson();
 }
 
+void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
+{
+    vector<Airline*>* vec=FindAirlineByName(bookOrder->mAirlineName);
+    for(vector<Airline*>::iterator it=vec->begin();it!=vec->end();it++)
+    {
+        if((*it)->mDepartureAirport==bookOrder->mDepartureAirport&&(*it)->mArrivalAirport==bookOrder->mArrivalAirport)
+        {
+            (*it)->mCurrentNumber=(*it)->mCurrentNumber-1;
+            WriteAirlineJson();
+            break;
+        }
+    }
+    cout<<"==========================================="<<endl;
+    cout<<endl;
+    cout<<"================ 退票成功 ================="<<endl;
+    cout<<endl;
+    cout<<setw(12)<<"姓名:"<<bookOrder->mName<<endl;
+    cout<<setw(12)<<"证件号:"<<bookOrder->mIdNumber<<endl;
+    cout<<setw(12)<<"航班号:"<<bookOrder->mAirlineName<<endl;
+    cout<<setw(12)<<"航空公司:"<<bookOrder->mCompany<<endl;
+    cout<<setw(12)<<"出发地:"<<bookOrder->mDepartureCity<<endl;
+    cout<<setw(12)<<"目的地:"<<bookOrder->mArrivalCity<<endl;
+    cout<<setw(12)<<"购买价格:"<<bookOrder->mPrice<<endl;
+    cout<<endl;
+    cout<<"==========================================="<<endl;
+}
+
 //按价格排序
 void AirlineGraph::SortByPrize(string name1,string name2)
 {
