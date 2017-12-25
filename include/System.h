@@ -9,6 +9,7 @@ class System
         virtual ~System();
         AirlineGraph* mAirlineGraph;
         void InsertAirlineInfo();
+        void ShowAllAirlineToUser();
     protected:
 
     private:

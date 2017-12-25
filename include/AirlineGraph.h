@@ -22,12 +22,11 @@ class AirlineGraph
         Airport* FindAirportByName(string name);    //查找机场，获取指针
         int GetAirlineNumber(); //返回航线数目
         void InsertAirline(Airline* airline);   //外部插入接口
+        void ShowAllAirlineToUser();
         void ShowAirlineGraph();    //打印输出边链表
         void WriteAirlineJson();    //写json到文件
         string GetAirportLocation(string airportName);
-		
-		
-        void FindByAirlineName(string name);//通过航班号查找
+        Airline* FindAirlineByName(string name);//通过航班号查找
         void SortByPrize(string name1,string name2);//按时间排序
         void SortByTime(string name1,string name2);//按时间排序
     protected:
