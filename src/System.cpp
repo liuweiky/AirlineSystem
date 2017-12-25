@@ -99,8 +99,6 @@ void System::ShowAllAirlineToUser()
     mAirlineGraph->ShowAllAirlineToUser();
 }
 
-
-
 void System::ShowAirlineByAirport(int no)
 {
     mAirlineGraph->ShowAirlineByAirport(no);
@@ -513,4 +511,3 @@ void System::UnsubscribeByNo(int no)
     mAirlineGraph->Unsubscribe(*(it+no-1));
     mBookOrderVector->erase(it+no-1);
 }
-
