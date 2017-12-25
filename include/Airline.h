@@ -18,7 +18,7 @@ class Airline
         string mDepartureCity;
         string mArrivalCity;
         int mPrice;
-        double mDiscount;
+        int mIntDiscount;
         int mCapacity;
         int mCurrentNumber;
         Airline* mNextAirline;
