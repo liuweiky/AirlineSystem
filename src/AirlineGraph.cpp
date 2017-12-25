@@ -12,7 +12,7 @@ AirlineGraph::~AirlineGraph()
 {
     //dtor
 }
-
+//读入机场信息
 void AirlineGraph::LoadAirport()
 {
     Array AirportArray;
@@ -36,7 +36,7 @@ void AirlineGraph::LoadAirport()
     }
     //cout<<AirportArray.json();
 }
-
+//读入航线信息
 void AirlineGraph::LoadAirline()
 {
     Array AirlineArray;
@@ -78,7 +78,7 @@ void AirlineGraph::LoadAirline()
     infile.close();
     //cout<<AirlineArray.json();
 }
-
+//通过航班号查询航班
 Airport* AirlineGraph::FindAirportByName(string name)
 {
     for(int i=0;i<mAirportNumber;i++)
@@ -92,7 +92,7 @@ Airport* AirlineGraph::FindAirportByName(string name)
     }
     return NULL;
 }
-
+//插入航班 创建时调用
 void AirlineGraph::InsertAirline(Airport* airport,Airline* airline)
 {
     Airline* line=airport->mAdjAirline;
@@ -109,7 +109,7 @@ void AirlineGraph::InsertAirline(Airport* airport,Airline* airline)
         line->mNextAirline=airline;
     }
 }
-
+//展示航班
 void AirlineGraph::ShowAirlineGraph()
 {
     cout.setf(ios::left);
@@ -140,7 +140,7 @@ void AirlineGraph::ShowAirlineGraph()
     }
     cout<<endl<<"======================================================================================================================"<<endl;
 }
-
+//生成文件保存
 Array AirlineGraph::GenerateAirlineJson()
 {
     Array jsonArray;

@@ -177,3 +177,60 @@
 	<string>
 	<sstream>
 
+1514182198 source:d:\git\airlinesystem\main.cpp
+	<iostream>
+	<fstream>
+	"jsonxx.h"
+	"System.h"
+
+1514182198 d:\git\airlinesystem\include\jsonxx.h
+	<cstddef>
+	<cassert>
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<sstream>
+
+1514182198 d:\git\airlinesystem\include\system.h
+	"AirlineGraph.h"
+
+1514183178 d:\git\airlinesystem\include\airlinegraph.h
+	"Airport.h"
+	"Airline.h"
+	"jsonxx.h"
+	<fstream>
+	<iomanip>
+
+1514183178 d:\git\airlinesystem\include\airport.h
+	<string>
+	<Airline.h>
+
+1514183178 d:\git\airlinesystem\include\airline.h
+	<iostream>
+
+1514182198 source:d:\git\airlinesystem\src\fileutil.cpp
+	"FileUtil.h"
+
+1514182198 d:\git\airlinesystem\include\fileutil.h
+
+1514182198 source:d:\git\airlinesystem\src\jsonxx.cpp
+	"jsonxx.h"
+	<cctype>
+	<iostream>
+	<iomanip>
+	<sstream>
+	<vector>
+	<limits>
+	<stdio.h>
+	<cassert>
+	<cassert>
+
+1514182198 source:d:\git\airlinesystem\src\mappingutil.cpp
+	"MappingUtil.h"
+
+1514182198 d:\git\airlinesystem\include\mappingutil.h
+
+1514182198 source:d:\git\airlinesystem\src\system.cpp
+	"System.h"
+

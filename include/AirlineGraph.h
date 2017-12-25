@@ -9,25 +9,26 @@
 using std::setw;
 using namespace jsonxx;
 
+//航线图
 class AirlineGraph
 {
     public:
         AirlineGraph();
         virtual ~AirlineGraph();
-        int mAirportNumber;
-        int mAirlineNumber;
-        Airport** mAirportHeadArray;
-        Airline** mAirlineArray;
+        int mAirportNumber;                 //机场编号
+        int mAirlineNumber;                 //航线编号
+        Airport** mAirportHeadArray;        //机场头指针
+        Airline** mAirlineArray;            //航线头指针
         Airport* FindAirportByName(string name);
         void InsertAirline(Airport* airport,Airline* airline);
-        void ShowAirlineGraph();
-        void WriteAirlineJson();
+        void ShowAirlineGraph();            //展示航线
+        void WriteAirlineJson();            //写入json
     protected:
 
     private:
         Array GenerateAirlineJson();
-        void LoadAirport();
-        void LoadAirline();
+        void LoadAirport();                 //读入机场
+        void LoadAirline();                 //读入航线
 };
 
 #endif // AIRLINEGRAPH_H
