@@ -20,10 +20,12 @@ int main()
     );
 
 
-
     System* system=new System();
     //system->InsertAirlineInfo();
     //system->mAirlineGraph->ShowAirlineGraph();
+
+    //system->ShowAllAirlineToUser();
+
     //system->ShowAllAirlineToUser();
     //system->ShowAirlineByAirport(0);
     //system->ShowAirlineByCity("±±¾©");
