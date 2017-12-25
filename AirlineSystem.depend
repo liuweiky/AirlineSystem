@@ -1,0 +1,179 @@
+# depslib dependency file v1.0
+1514169503 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\main.cpp
+	<iostream>
+	<fstream>
+	"jsonxx.h"
+	"System.h"
+
+1514168060 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\airline.cpp
+	"Airline.h"
+
+1514164119 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\airline.h
+	<iostream>
+
+1514164984 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\airport.cpp
+	"Airport.h"
+
+1514165127 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\airport.h
+	<string>
+	<Airline.h>
+
+1514041001 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\mappingutil.cpp
+	"MappingUtil.h"
+
+1514041001 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\mappingutil.h
+
+1514134462 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\system.cpp
+	"System.h"
+
+1514133711 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\system.h
+	"AirlineGraph.h"
+
+1514169491 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\airlinegraph.cpp
+	"AirlineGraph.h"
+
+1514170994 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\airlinegraph.h
+	"Airport.h"
+	"Airline.h"
+	"jsonxx.h"
+	<fstream>
+	<iomanip>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\config.h
+	<stddef.h>
+	<string>
+	<stdint.h>
+	<cpptl/config.h>
+	"version.h"
+	"allocator.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\version.h
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\allocator.h
+	<cstring>
+	<memory>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<exception>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\forwards.h
+	"config.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<iosfwd>
+	<stack>
+	<string>
+	<istream>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\features.h
+	"forwards.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\json\writer.h
+	"value.h"
+	<vector>
+	<string>
+	<ostream>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\config.h
+	<stddef.h>
+	<string>
+	<stdint.h>
+	<cpptl/config.h>
+	"version.h"
+	"allocator.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\version.h
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\allocator.h
+	<cstring>
+	<memory>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<exception>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\forwards.h
+	"config.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<iosfwd>
+	<stack>
+	<string>
+	<istream>
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\features.h
+	"forwards.h"
+
+1513746430 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\json\writer.h
+	"value.h"
+	<vector>
+	<string>
+	<ostream>
+
+1514129947 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\fileutil.cpp
+	"FileUtil.h"
+
+1514129946 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\fileutil.h
+
+1514131347 source:d:\codeblocksprojects\datastructuregrouptask\airlinesystem\src\jsonxx.cpp
+	"jsonxx.h"
+	<cctype>
+	<iostream>
+	<iomanip>
+	<sstream>
+	<vector>
+	<limits>
+	<stdio.h>
+	<cassert>
+	<cassert>
+
+1514131328 d:\codeblocksprojects\datastructuregrouptask\airlinesystem\include\jsonxx.h
+	<cstddef>
+	<cassert>
+	<iostream>
+	<map>
+	<vector>
+	<string>
+	<sstream>
+
