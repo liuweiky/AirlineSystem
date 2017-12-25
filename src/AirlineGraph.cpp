@@ -222,8 +222,9 @@ string AirlineGraph::GetAirportLocation(string airportName)
     return FindAirportByName(airportName)->mLocation;
 }
 //查询某个航线的情况如输入航班号
-Airline* AirlineGraph::FindAirlineByName(string name)
+vector<Airline*>* AirlineGraph::FindAirlineByName(string name)
 {
+    vector<Airline*>* vec=new vector<Airline*>();
     for(int i=0;i<mAirportNumber;i++)
     {
         Airport* airport=mAirportHeadArray[i];
@@ -245,12 +246,12 @@ Airline* AirlineGraph::FindAirlineByName(string name)
                 cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
                 cout<<"满载:"<<airline->mCapacity<<endl;
                 cout<<"当前人数:"<<airline->mCurrentNumber<<endl;*/
-                return airline;
+                vec->push_back(airline);
             }
             airline=airline->mNextAirline;
         }
     }
-    return NULL;
+    return vec;
 }
 
 void AirlineGraph::ShowAllAirlineToUser()
