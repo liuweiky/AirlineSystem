@@ -21,11 +21,11 @@ class AirlineGraph
         Airport* FindAirportByName(string name);
         void InsertAirline(Airport* airport,Airline* airline);
         void ShowAirlineGraph();
-
+        void WriteAirlineJson();
     protected:
 
     private:
-        void GenerateAirport();
+        Array GenerateAirlineJson();
         void LoadAirport();
         void LoadAirline();
 };

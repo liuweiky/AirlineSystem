@@ -5,16 +5,12 @@ AirlineGraph::AirlineGraph()
     LoadAirport();
     LoadAirline();
     ShowAirlineGraph();
+    WriteAirlineJson();
 }
 
 AirlineGraph::~AirlineGraph()
 {
     //dtor
-}
-
-void AirlineGraph::GenerateAirport()
-{
-    //ofstream outfile;
 }
 
 void AirlineGraph::LoadAirport()
@@ -67,7 +63,7 @@ void AirlineGraph::LoadAirline()
         mAirlineArray[i]->mDepartureCity=AirlineArray.get<Object>(i).get<String>("起始城市");
         mAirlineArray[i]->mArrivalCity=AirlineArray.get<Object>(i).get<String>("到达城市");
         mAirlineArray[i]->mPrice=AirlineArray.get<Object>(i).get<Number>("价格");
-        mAirlineArray[i]->mDiscount=AirlineArray.get<Object>(i).get<Number>("最大折扣");
+        mAirlineArray[i]->mIntDiscount=AirlineArray.get<Object>(i).get<Number>("最大折扣");
         mAirlineArray[i]->mCapacity=AirlineArray.get<Object>(i).get<Number>("满载");
         mAirlineArray[i]->mCurrentNumber=AirlineArray.get<Object>(i).get<Number>("当前人数");
 
@@ -79,6 +75,7 @@ void AirlineGraph::LoadAirline()
             InsertAirline(airport,mAirlineArray[i]);
         }
     }
+    infile.close();
     //cout<<AirlineArray.json();
 }
 
@@ -142,4 +139,55 @@ void AirlineGraph::ShowAirlineGraph()
         }
     }
     cout<<endl<<"======================================================================================================================"<<endl;
+}
+
+Array AirlineGraph::GenerateAirlineJson()
+{
+    Array jsonArray;
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airport* airport=mAirportHeadArray[i];
+        Airline* airline=airport->mAdjAirline;
+        while(airline!=NULL)
+        {
+            Object jsonObj;
+            jsonObj<<"公司"<<airline->mCompany;
+            jsonObj<<"航班号"<<airline->mAirlineName;
+            jsonObj<<"起始城市"<<airline->mDepartureCity;
+            jsonObj<<"起飞机场"<<airline->mDepartureAirport;
+            jsonObj<<"到达城市"<<airline->mArrivalCity;
+            jsonObj<<"到达机场"<<airline->mArrivalAirport;
+            jsonObj<<"起飞时间"<<airline->mDepartureTime;
+            jsonObj<<"到达时间"<<airline->mArrivalTime;
+            jsonObj<<"机型"<<airline->mAirplaneModel;
+            jsonObj<<"价格"<<airline->mPrice;
+            jsonObj<<"最大折扣"<<airline->mIntDiscount;
+            jsonObj<<"满载"<<airline->mCapacity;
+            jsonObj<<"当前人数"<<airline->mCurrentNumber;
+
+            jsonArray<<jsonObj;
+            //cout<<airline->mAirlineName<<"\t";
+            /*cout<<setw(25)<<airline->mAirlineName<<setw(25);
+            cout<<airline->mCompany<<setw(35);
+            cout<<airline->mDepartureAirport<<setw(25);
+            cout<<airline->mArrivalAirport<<setw(25);
+            cout<<airline->mDepartureTime<<setw(13);
+            cout<<airline->mArrivalTime<<setw(13);
+            cout<<airline->mAirplaneModel<<setw(13);
+            cout<<airline->mDepartureCity<<setw(13);
+            cout<<airline->mArrivalCity;
+            cout<<endl;*/
+            airline=airline->mNextAirline;
+        }
+    }
+    return jsonArray;
+}
+
+void AirlineGraph::WriteAirlineJson()
+{
+    ofstream outfile;
+    outfile.open("Airline.json");
+    Array jsonArray=GenerateAirlineJson();
+    cout<<jsonArray.json();
+    outfile<<jsonArray.json();
 }

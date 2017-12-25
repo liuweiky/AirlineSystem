@@ -56,7 +56,7 @@ int main()
     o << "key2" << 123;
     o << "key3" << a;
     //cout <<obj.json()<< endl;
-    //cout <<o.json()<< endl;
+    cout <<o.json()<< endl;
 
     Object oo;
     oo.parse(teststr);
