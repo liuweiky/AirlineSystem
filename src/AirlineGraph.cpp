@@ -186,7 +186,7 @@ void AirlineGraph::WriteAirlineJson()
     ofstream outfile;
     outfile.open("Airline.json");
     Array jsonArray=GenerateAirlineJson();
-    cout<<jsonArray.json();
+    //cout<<jsonArray.json();
     outfile<<jsonArray.json();
     outfile.close();
 }
@@ -342,6 +342,12 @@ void AirlineGraph::ShowAirlineByCity(string city)
     {
         cout<<endl<<"无航班信息！"<<endl;
     }
+}
+
+void AirlineGraph::Book(Airline* airline)
+{
+    airline->mCurrentNumber=airline->mCurrentNumber+1;
+    WriteAirlineJson();
 }
 
 //按价格排序

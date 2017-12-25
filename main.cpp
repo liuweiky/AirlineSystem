@@ -27,7 +27,8 @@ int main()
     //system->ShowAllAirlineToUser();
     //system->ShowAirlineByAirport(0);
     //system->ShowAirlineByCity("±±¾©");
-    system->SearchAirline("CZ6394");
+    //system->SearchAirline("CZ6394");
+    system->Book();
 
     Object obj;
     obj<<"Airline Number"<<999;
