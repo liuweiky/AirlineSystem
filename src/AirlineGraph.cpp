@@ -2,9 +2,9 @@
 
 AirlineGraph::AirlineGraph()
 {
-    //LoadAirport();
-    //LoadAirline();
-    //ShowAirlineGraph();
+    LoadAirport();
+    LoadAirline();
+    ShowAirlineGraph();
 }
 
 AirlineGraph::~AirlineGraph()
@@ -35,8 +35,8 @@ void AirlineGraph::LoadAirport()
         mAirportHeadArray[i]=new Airport();
         mAirportHeadArray[i]->No=AirportArray.get<Object>(i).get<Number>("序号");
         mAirportHeadArray[i]->mAirportName=AirportArray.get<Object>(i).get<String>("机场");
-        mAirportHeadArray[i]->mShortName=AirportArray.get<Object>(i).get<String>("缩写");
-        mAirportHeadArray[i]->mLocation=AirportArray.get<Object>(i).get<String>("地址");
+        mAirportHeadArray[i]->mShortName=AirportArray.get<Object>(i).get<String>("机场代号");
+        mAirportHeadArray[i]->mLocation=AirportArray.get<Object>(i).get<String>("城市");
     }
     //cout<<AirportArray.json();
 }
@@ -104,7 +104,7 @@ void AirlineGraph::InsertAirline(Airport* airport,Airline* airline)
         airport->mAdjAirline=airline;
     }else
     {
-        cout<<line->mAirlineName;
+        //cout<<line->mAirlineName;
         while(line->mNextAirline!=NULL)
         {
             line=line->mNextAirline;
@@ -117,15 +117,17 @@ void AirlineGraph::ShowAirlineGraph()
 {
     cout.setf(ios::left);
     cout<<endl;
+
     for(int i=0;i<mAirportNumber;i++)
     {
         cout<<endl;
+        cout<<"======================================================================================================================";
         Airport* airport=mAirportHeadArray[i];
         Airline* airline=airport->mAdjAirline;
-        cout<<airport->mAirportName<<"\t";
+        cout<<endl<<"【"<<airport->mLocation<<" - "<<airport->mAirportName<<"】"<<"\t"<<endl<<endl;
         while(airline!=NULL)
         {
-            cout<<airline->mAirlineName<<" ";
+            cout<<airline->mAirlineName<<"\t";
             /*cout<<setw(25)<<airline->mAirlineName<<setw(25);
             cout<<airline->mCompany<<setw(35);
             cout<<airline->mDepartureAirport<<setw(25);
@@ -139,4 +141,5 @@ void AirlineGraph::ShowAirlineGraph()
             airline=airline->mNextAirline;
         }
     }
+    cout<<endl<<"======================================================================================================================"<<endl;
 }
