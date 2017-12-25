@@ -65,5 +65,33 @@ void System::ShowAirlineByAirport(int no)
 
 void System::ShowAirlineByCity(string city)
 {
+    cout<<city;
     mAirlineGraph->ShowAirlineByCity(city);
+}
+
+void System::SearchAirline(string name)
+{
+    Airline* airline=mAirlineGraph->FindAirlineByName(name);
+    if(airline==NULL)
+    {
+        cout<<endl<<"无记录！"<<endl;
+    }
+    else
+    {
+        cout<<setw(12)<<"航班号:"<<airline->mAirlineName<<endl;
+        cout<<setw(12)<<"航空公司:"<<airline->mCompany<<endl;
+        cout<<setw(12)<<"出发地:"<<airline->mDepartureCity<<endl;
+        cout<<setw(12)<<"起飞机场:"<<airline->mDepartureAirport<<endl;
+        cout<<setw(12)<<"目的地:"<<airline->mArrivalCity<<endl;
+        cout<<setw(12)<<"着陆机场:"<<airline->mArrivalAirport<<endl;
+        cout<<setw(12)<<"起飞时间:"<<airline->mDepartureTime<<endl;
+        cout<<setw(12)<<"抵达时间:"<<airline->mArrivalTime<<endl;
+        cout<<setw(12)<<"机型:"<<airline->mAirplaneModel<<endl;
+        cout<<setw(12)<<"票价:"<<airline->mPrice<<endl;
+        cout<<setw(12)<<"折扣:"<<airline->mIntDiscount/1000.0<<endl;
+        cout<<setw(12)<<"折后票价:"<<airline->mPrice*(1-airline->mIntDiscount/1000.0)<<endl;
+        cout<<setw(12)<<"载客量:"<<airline->mCapacity<<endl;
+        cout<<setw(12)<<"已售:"<<airline->mCurrentNumber<<endl;
+        cout<<setw(12)<<"余票:"<<airline->mCapacity-airline->mCurrentNumber<<endl;
+    }
 }
