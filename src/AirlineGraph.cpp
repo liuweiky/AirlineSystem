@@ -6,9 +6,14 @@ AirlineGraph::AirlineGraph()
     LoadAirline();
   //  ShowAirlineGraph();
   //  WriteAirlineJson();
-    char airline[10]="CZ6684";
-    string name = airline;
-    FindByAirlineName(name);
+  //  char airline[10]="CZ6684";
+  //  string name = airline;
+  //  FindByAirlineName(name);
+        char name1[10]="北京";
+        char name2[10]="上海";
+        string de = name1;
+        string ar = name2;
+        SortByPrize(de,ar);
 }
 
 AirlineGraph::~AirlineGraph()
@@ -203,6 +208,35 @@ void AirlineGraph::FindByAirlineName(string name)
         while(airline!=NULL)
         {
             if(airline->mAirlineName==name)
+            {
+                cout<<"航班号:"<<airline->mAirlineName<<endl;
+                cout<<"公司:"<<airline->mCompany<<endl;
+                cout<<"起始城市:"<<airline->mDepartureCity<<endl;
+                cout<<"起飞机场:"<<airline->mDepartureAirport<<endl;
+                cout<<"到达城市:"<<airline->mArrivalCity<<endl;
+                cout<<"到达机场:"<<airline->mArrivalAirport<<endl;
+                cout<<"起飞时间:"<<airline->mDepartureTime<<endl;
+                cout<<"到达时间:"<<airline->mArrivalTime<<endl;
+                cout<<"机型:"<<airline->mAirplaneModel<<endl;
+                cout<<"价格:"<<airline->mPrice<<endl;
+                cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
+                cout<<"满载:"<<airline->mCapacity<<endl;
+                cout<<"当前人数:"<<airline->mCurrentNumber<<endl;
+            }
+            airline=airline->mNextAirline;
+        }
+    }
+}
+//按价格排序
+void AirlineGraph::SortByPrize(string name1,string name2)
+{
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airport* airport=mAirportHeadArray[i];
+        Airline* airline=airport->mAdjAirline;
+        while(airline!=NULL)
+        {
+            if(airline->mDepartureCity==name1&&airline->mArrivalCity==name2)
             {
                 cout<<"航班号:"<<airline->mAirlineName<<endl;
                 cout<<"公司:"<<airline->mCompany<<endl;

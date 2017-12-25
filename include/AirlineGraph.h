@@ -24,6 +24,8 @@ class AirlineGraph
         void ShowAirlineGraph();            //展示航线
         void WriteAirlineJson();            //写入json
         void FindByAirlineName(string name);//通过航班号查找
+        void SortByPrize(string name1,string name2);//按时间排序
+        void SortByTime(string name1,string name2);//按时间排序
     protected:
 
     private:
