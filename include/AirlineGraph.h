@@ -3,6 +3,7 @@
 #include "Airport.h"
 #include "Airline.h"
 #include "jsonxx.h"
+#include "BookOrder.h"
 #include <fstream>
 #include <iomanip>
 #include <vector>
@@ -11,44 +12,44 @@
 using std::setw;
 using namespace jsonxx;
 
-//º½ÏßÍ¼
+//èˆªçº¿å›¾
 class AirlineGraph
 {
     public:
         AirlineGraph();
         virtual ~AirlineGraph();
-        int mAirportNumber;                         //»ú³¡ÊıÁ¿
-        Airport** mAirportHeadArray;                //¶¥µã±í
-        vector<Airline*>* mAirlineVector;           //±£´æº½Ïß
-        Airport* FindAirportByName(string name);    //²éÕÒ»ú³¡£¬»ñÈ¡Ö¸Õë
-        int GetAirlineNumber();                     //·µ»Øº½ÏßÊıÄ¿
-        void InsertAirline(Airline* airline);       //Íâ²¿²åÈë½Ó¿Ú
-        void ShowAllAirlineToUser();                //Ô¤ÀÀÒÑ¾­½¨Á¢µÄÈ«²¿º½ÏßµÄÏà¹ØĞÅÏ¢
-        void ShowAirlineByAirport(int no);           //Ô¤ÀÀÄ³¸ö»ú³¡µÄº½°à
-        void ShowAirlineByCity(string city);                       //Ô¤ÀÀÄ³¸ö³ÇÊĞµÄº½°à
-        void ShowAirlineGraph();                                   //´òÓ¡Êä³ö±ßÁ´±í
-        void WriteAirlineJson();                                    //Ğ´jsonµ½ÎÄ¼ş
+        int mAirportNumber;                         //æœºåœºæ•°é‡
+        Airport** mAirportHeadArray;                //é¡¶ç‚¹è¡¨
+        vector<Airline*>* mAirlineVector;           //ä¿å­˜èˆªçº¿
+        Airport* FindAirportByName(string name);    //æŸ¥æ‰¾æœºåœºï¼Œè·å–æŒ‡é’ˆ
+        int GetAirlineNumber();                     //è¿”å›èˆªçº¿æ•°ç›®
+        void InsertAirline(Airline* airline);       //å¤–éƒ¨æ’å…¥æ¥å£
+        void ShowAllAirlineToUser();                //é¢„è§ˆå·²ç»å»ºç«‹çš„å…¨éƒ¨èˆªçº¿çš„ç›¸å…³ä¿¡æ¯
+        void ShowAirlineByAirport(int no);           //é¢„è§ˆæŸä¸ªæœºåœºçš„èˆªç­
+        void ShowAirlineByCity(string city);                       //é¢„è§ˆæŸä¸ªåŸå¸‚çš„èˆªç­
+        void ShowAirlineGraph();                                   //æ‰“å°è¾“å‡ºè¾¹é“¾è¡¨
+        void WriteAirlineJson();                                    //å†™jsonåˆ°æ–‡ä»¶
         vector<int>* GetAirportIdByLocation(string loc);
         string GetAirportLocation(string airportName);
-        Airport* FindAirlineByName1(string name);                  //Í¨¹ıº½°àºÅ²éÕÒ
+        Airport* FindAirlineByName1(string name);                  //é€šè¿‡èˆªç­å·æŸ¥æ‰¾
         Airline* FindAirlineByDepartureAirport(string name);
         void Search(string city1,string city2);
-        void SortByPrice(string name1,string name2);            //°´¼Û¸ñÅÅĞò
-        vector<Airline*>* FindAirlineByName(string name);       //Í¨¹ıº½°àºÅ²éÕÒ
-        void SortByTime(string name1,string name2);             //°´Ê±¼äÅÅĞò
-        void SearchByTime(string time1,string time2,string name1,string name2);//°´Ê±¼ä²éÕÒ
-        void SearchByPrice(int price1,int price2,string name1,string name2);//°´Æ±¼Û²éÕÒ
-        int timetransform(string time);                 //Ê±¼ä×ª»»º¯Êı
-        void Properline(string city1,string city2);     //ÍÆ¼öºÏÀíÂ·Ïß
+        void SortByPrice(string name1,string name2);            //æŒ‰ä»·æ ¼æ’åº
+        vector<Airline*>* FindAirlineByName(string name);       //é€šè¿‡èˆªç­å·æŸ¥æ‰¾
+        void SortByTime(string name1,string name2);             //æŒ‰æ—¶é—´æ’åº
+        void SearchByTime(string time1,string time2,string name1,string name2);//æŒ‰æ—¶é—´æŸ¥æ‰¾
+        void SearchByPrice(int price1,int price2,string name1,string name2);//æŒ‰ç¥¨ä»·æŸ¥æ‰¾
+        int timetransform(string time);                 //æ—¶é—´è½¬æ¢å‡½æ•°
+        void Properline(string city1,string city2);     //æ¨èåˆç†è·¯çº¿
         Airport* FindAirportByCity(string city);
         bool timecomp(string time1,string time2);
     protected:
 
     private:
-        Array GenerateAirlineJson();    //Éú³Éjson
-        void LoadAirport(); //´Ó±¾µØÔØÈë»ú³¡Êı¾İ
-        void LoadAirline(); //´Ó±¾µØÔØÈëº½ÏßÊı¾İ
-        void InsertAirlineGraph(Airport* airport,Airline* airline); //ÔÚÍ¼ÖĞ²åÈë±ß£¨²åÈëº½Ïß£©
+        Array GenerateAirlineJson();    //ç”Ÿæˆjson
+        void LoadAirport(); //ä»æœ¬åœ°è½½å…¥æœºåœºæ•°æ®
+        void LoadAirline(); //ä»æœ¬åœ°è½½å…¥èˆªçº¿æ•°æ®
+        void InsertAirlineGraph(Airport* airport,Airline* airline); //åœ¨å›¾ä¸­æ’å…¥è¾¹ï¼ˆæ’å…¥èˆªçº¿ï¼‰
 };
 
 #endif // AIRLINEGRAPH_H
