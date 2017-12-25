@@ -23,6 +23,7 @@ class AirlineGraph
         void InsertAirline(Airport* airport,Airline* airline);
         void ShowAirlineGraph();            //展示航线
         void WriteAirlineJson();            //写入json
+        void FindByAirlineName(string name);//通过航班号查找
     protected:
 
     private:
