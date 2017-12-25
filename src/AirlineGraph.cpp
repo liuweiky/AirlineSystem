@@ -22,11 +22,11 @@ void AirlineGraph::LoadAirport()
     ostringstream tmp;
     tmp<<infile.rdbuf();
     s=tmp.str();
-    AirportArray.parse(s);
+    AirportArray.parse(s);  //解析json
     mAirportNumber=AirportArray.size();
     cout<<mAirportNumber<<endl;
     mAirportHeadArray=new Airport*[mAirportNumber];
-    for(int i=0;i<mAirportNumber;i++)
+    for(int i=0;i<mAirportNumber;i++)   //生成顶点表
     {
         mAirportHeadArray[i]=new Airport();
         mAirportHeadArray[i]->No=AirportArray.get<Object>(i).get<Number>("序号");
@@ -46,9 +46,9 @@ void AirlineGraph::LoadAirline()
     ostringstream tmp;
     tmp<<infile.rdbuf();
     s=tmp.str();
-    AirlineArray.parse(s);
+    AirlineArray.parse(s);  //解析json
     mAirlineVector=new vector<Airline*>();
-    for(int i=0;i<AirlineArray.size();i++)
+    for(int i=0;i<AirlineArray.size();i++)  //保存航线到vector
     {
         Airline* airline=new Airline();
         airline->mAirlineName=AirlineArray.get<Object>(i).get<String>("航班号");
@@ -67,11 +67,9 @@ void AirlineGraph::LoadAirline()
         mAirlineVector->push_back(airline);
 
         Airport* airport=FindAirportByName(airline->mDepartureAirport);
-        //cout<<mAirlineArray[i]->mAirlineName<<endl;
-        if(airport!=NULL)
+        if(airport!=NULL)   //判断机场是否存在
         {
-            //cout<<airport->mAirportName;
-            InsertAirlineGraph(airport,airline);
+            InsertAirlineGraph(airport,airline);    //插入到图
         }
     }
     infile.close();
@@ -195,4 +193,30 @@ void AirlineGraph::WriteAirlineJson()
 int AirlineGraph::GetAirlineNumber()
 {
     return mAirlineVector->size();
+}
+
+void AirlineGraph::InsertAirline(Airline* airline)
+{
+    Airport* dAirport=FindAirportByName(airline->mDepartureAirport);
+    Airport* aAirport=FindAirportByName(airline->mArrivalAirport);
+
+    if(dAirport==NULL||aAirport==NULL)
+    {
+        cout<<endl<<"机场不存在！";
+        return;
+    }else if(dAirport->mLocation!=airline->mDepartureCity||aAirport->mLocation!=airline->mArrivalCity)
+    {
+        cout<<endl<<"机场位置信息不匹配！";
+        return;
+    }else
+    {
+        mAirlineVector->push_back(airline);
+        InsertAirlineGraph(dAirport,airline);    //插入到图
+    }
+}
+
+
+string AirlineGraph::GetAirportLocation(string airportName)
+{
+    return FindAirportByName(airportName)->mLocation;
 }
