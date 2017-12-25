@@ -8,7 +8,7 @@ using namespace jsonxx;
 
 int main()
 {
-    cout<<"²âÊÔ"<<endl;
+    cout<<"ºÇºÇ"<<endl;
     cout << "Hello world!" << endl;
     string teststr(
         "{"
@@ -24,7 +24,13 @@ int main()
     System* system=new System();
     //system->InsertAirlineInfo();
     //system->mAirlineGraph->ShowAirlineGraph();
-//    system->ShowAllAirlineToUser();
+
+    system->ShowAllAirlineToUser();
+
+    //system->ShowAllAirlineToUser();
+    //system->ShowAirlineByAirport(0);
+    //system->ShowAirlineByCity("±±¾©");
+    system->SearchAirline("CZ6394");
 
     Object obj;
     obj<<"Airline Number"<<999;
