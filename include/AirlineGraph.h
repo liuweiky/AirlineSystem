@@ -29,7 +29,7 @@ class AirlineGraph
         void WriteAirlineJson();    //写json到文件
         vector<int>* GetAirportIdByLocation(string loc);
         string GetAirportLocation(string airportName);
-        Airline* FindAirlineByName(string name);//通过航班号查找
+        vector<Airline*>* FindAirlineByName(string name);//通过航班号查找
         void SortByPrize(string name1,string name2);//按时间排序
         void SortByTime(string name1,string name2);//按时间排序
     protected:

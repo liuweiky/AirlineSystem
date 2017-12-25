@@ -26,7 +26,8 @@ int main()
     //system->mAirlineGraph->ShowAirlineGraph();
     //system->ShowAllAirlineToUser();
     //system->ShowAirlineByAirport(0);
-    system->ShowAirlineByCity("北京");
+    //system->ShowAirlineByCity("北京");
+    system->SearchAirline("CZ6394");
 
     Object obj;
     obj<<"Airline Number"<<999;
