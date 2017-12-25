@@ -52,7 +52,7 @@ void System::InsertAirlineInfo()
     mAirlineGraph->InsertAirline(airline);
 }
 
-void System::ShowAllAirlineToUser()
+/*void System::ShowAllAirlineToUser()
 {
     mAirlineGraph->ShowAllAirlineToUser();
-}
+}*/

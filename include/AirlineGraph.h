@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include<algorithm>
 
 using std::setw;
 using namespace jsonxx;
@@ -27,8 +28,10 @@ class AirlineGraph
         void WriteAirlineJson();    //写json到文件
         string GetAirportLocation(string airportName);
         Airline* FindAirlineByName(string name);//通过航班号查找
-        void SortByPrize(string name1,string name2);//按时间排序
+        Airline* FindAirlineByDepartureAirport(string name);
+        void SortByPrice(string name1,string name2);//按价格排序
         void SortByTime(string name1,string name2);//按时间排序
+        bool comp(const Airline *a,const Airline *b);
     protected:
 
     private:
