@@ -10,6 +10,7 @@
 using std::setw;
 using namespace jsonxx;
 
+//航线图
 class AirlineGraph
 {
     public:
@@ -21,10 +22,13 @@ class AirlineGraph
         Airport* FindAirportByName(string name);    //查找机场，获取指针
         int GetAirlineNumber(); //返回航线数目
         void InsertAirline(Airline* airline);   //外部插入接口
+        void ShowAllAirlineToUser();
         void ShowAirlineGraph();    //打印输出边链表
         void WriteAirlineJson();    //写json到文件
         string GetAirportLocation(string airportName);
-
+        Airline* FindAirlineByName(string name);//通过航班号查找
+        void SortByPrize(string name1,string name2);//按时间排序
+        void SortByTime(string name1,string name2);//按时间排序
     protected:
 
     private:

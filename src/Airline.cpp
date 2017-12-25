@@ -1,6 +1,6 @@
 #include "Airline.h"
 
-Airline::Airline()
+Airline::Airline()     //¹¹Ôìº¯Êı
 {
     mNextAirline=NULL;
 }

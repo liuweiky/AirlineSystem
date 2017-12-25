@@ -22,8 +22,9 @@ int main()
 
 
     System* system=new System();
-    system->InsertAirlineInfo();
-    system->mAirlineGraph->ShowAirlineGraph();
+    //system->InsertAirlineInfo();
+    //system->mAirlineGraph->ShowAirlineGraph();
+    system->ShowAllAirlineToUser();
 
     Object obj;
     obj<<"Airline Number"<<999;
