@@ -23,6 +23,7 @@ class Airline
         int mCurrentNumber;         //当前人数
         Airline* mNextAirline;      //下一航班
         int flag;
+        int transformtime;
     protected:
 
     private:
