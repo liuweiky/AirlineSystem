@@ -56,14 +56,3 @@ void System::ShowAllAirlineToUser()
 {
     mAirlineGraph->ShowAllAirlineToUser();
 }
-
-void System::ShowAirlineByAirport(int no)
-{
-    mAirlineGraph->ShowAirlineByAirport(no);
-    cout<<endl<<"========================================================================================================================================================================"<<endl;
-}
-
-void System::ShowAirlineByCity(string city)
-{
-    mAirlineGraph->ShowAirlineByCity(city);
-}
