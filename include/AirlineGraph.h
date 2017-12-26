@@ -48,7 +48,7 @@ class AirlineGraph
         void LoadAirline(); //从本地载入航线数据
         void InsertAirlineGraph(Airport* airport,Airline* airline); //在图中插入边（插入航线）
         void DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> >* mainVec,vector<Airline*> routeVec);
-        void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec,vector<Airline*> routeVec);
+        void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec);
 };
 
 #endif // AIRLINEGRAPH_H

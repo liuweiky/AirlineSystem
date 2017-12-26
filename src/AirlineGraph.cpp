@@ -521,65 +521,40 @@ void AirlineGraph::GetAdvisableRouteWithDFS(string departure,string arrival)
         cout<<endl;
     }*/
 
-    for(int i=0;i<mAirportNumber;i++)
-    cout<<visit[i]<<" "<<InD[i]<<endl;
-    BFS(9,29,InD,visit,mainVec,routeVec);
+    BFS(9,29,InD,visit,mainVec);
     cout<<mainVec->size();
     for(vector<Route>::iterator it=mainVec->begin();it!=mainVec->end();it++)
     {
         (*it).ShowRoute();
         cout<<endl;
     }
-for(int i=0;i<mAirportNumber;i++)
-    cout<<visit[i]<<" "<<InD[i]<<endl;
 }
 
-void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec,vector<Airline*> routeVec)
+void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec)
 {
+    int k=5;   //参数k
     queue<Route> q;
     Route r;
-    r.prevNo=f;
+    r.mPrevNo=f;
     q.push(r);
     while(!q.empty())
     {
         Route r0=q.front();
         q.pop();
-        Airline* airline=mAirportHeadArray[r0.prevNo]->mAdjAirline;
+        Airline* airline=mAirportHeadArray[r0.mPrevNo]->mAdjAirline;
         while(airline!=NULL)
         {
             if(!r0.CheckPass(airline->mArrivalAirport))
             {
-                if(r0.mAirlineVec.size()>0)
-                {
-                    if(r0.mAirlineVec[r0.mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp())
-                    {
-                        int no=GetAirportByName(airline->mArrivalAirport)->No;
-                        if(visit[no]<10*InD[no])
-                        {
-                            Route rNew=r0;
-                            rNew.mAirlineVec.push_back(airline);
-                            rNew.prevNo=no;
-                            visit[no]+=1;
-                            if(no!=a)
-                            {
-                                q.push(rNew);
-                            }
-                            else
-                            {
-                                mainVec->push_back(rNew);
-                            }
-                        }
-                    }
-
-                }
-                else
+                if((r0.mAirlineVec.size()>0&&r0.mAirlineVec[r0.mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp())
+                        ||r0.mAirlineVec.size()==0) //若不是始发航线，则需要判断前后航班时间是否赶得上
                 {
                     int no=GetAirportByName(airline->mArrivalAirport)->No;
-                    if(visit[no]<InD[no])
+                    if(visit[no]<k*InD[no])    //入度的k倍，经过一个点是入度的10倍。决定BFS精密程度，但是运行时间会增大
                     {
                         Route rNew=r0;
                         rNew.mAirlineVec.push_back(airline);
-                        rNew.prevNo=no;
+                        rNew.mPrevNo=no;
                         visit[no]+=1;
                         if(no!=a)
                         {
@@ -591,10 +566,7 @@ void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec,ve
                         }
                     }
                 }
-
-
             }
-
             airline=airline->mNextAirline;
         }
     }

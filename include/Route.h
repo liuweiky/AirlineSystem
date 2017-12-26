@@ -9,11 +9,11 @@ class Route
     public:
         Route();
         virtual ~Route();
-        int prevNo;
+        int mPrevNo;
         vector<Airline*> mAirlineVec;
         Route& operator=(const Route& r);
         void ShowRoute();
-        bool CheckPass(string airport);
+        bool CheckPass(string airport); //检查是否曾经经过了某个机场
     protected:
 
     private:

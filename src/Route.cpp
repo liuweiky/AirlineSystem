@@ -2,7 +2,7 @@
 
 Route::Route()
 {
-    prevNo=-1;
+    mPrevNo=-1;
 }
 
 Route::~Route()
@@ -17,6 +17,7 @@ Route& Route::operator=(const Route& r)
     {
         mAirlineVec.push_back(*it);
     }
+    mPrevNo=r.mPrevNo;
     return *this;
 }
 
@@ -24,7 +25,11 @@ void Route::ShowRoute()
 {
     for(vector<Airline*>::iterator it=mAirlineVec.begin(); it!=mAirlineVec.end(); it++)
     {
-        cout<<(*it)->mAirlineName<<"->";
+        cout<<'['<<(*it)->mAirlineName<<']';
+        if(it!=mAirlineVec.end()-1)
+        {
+            cout<<"->";
+        }
     }
 }
 
