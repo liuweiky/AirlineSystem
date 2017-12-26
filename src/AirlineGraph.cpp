@@ -235,11 +235,29 @@ void AirlineGraph::ShowAllAirlineToUser()
 
 void AirlineGraph::ShowAirlineByAirport(int no)
 {
+    vector<Airline*> vec;
+    Airport* airport=mAirportHeadArray[no];
+    Airline* airline=airport->mAdjAirline;
+    while(airline!=NULL)
+    {
+        vec.push_back(airline);
+        airline=airline->mNextAirline;
+    }
+    for(int i=1;i<vec.size();i++)  //²åÈëÅÅÐò
+    {
+        Airline* airline=vec[i];
+        int j;
+        for(j=i-1;j>=0&&(airline->GetAirlineTimeStamp())<vec[j]->GetAirlineTimeStamp();j--)
+        {
+            vec[j+1]=vec[j];
+        }
+        vec[j+1]=airline;
+    }
     cout.setf(ios::left);
     cout<<endl;
     cout<<"========================================================================================================================================================================"<<endl;
-    Airport* airport=mAirportHeadArray[no];
-    Airline* airline=airport->mAdjAirline;
+    /*Airport* airport=mAirportHeadArray[no];
+    Airline* airline=airport->mAdjAirline;*/
     cout<<endl<<"¡¾"<<airport->mLocation<<" - "<<airport->mAirportName<<"¡¿"<<"\t"<<endl<<endl;
 
     cout<<setw(10)<<"º½°àºÅ";
@@ -259,8 +277,9 @@ void AirlineGraph::ShowAirlineByAirport(int no)
     cout<<setw(8)<<"ÓàÆ±";
     cout<<endl<<endl;
 
-    while(airline!=NULL)
+    for(vector<Airline*>::iterator it=vec.begin();it!=vec.end();it++)
     {
+        Airline* airline=*it;
         cout<<setw(10)<<airline->mAirlineName;
         cout<<setw(25)<<airline->mCompany;
         cout<<setw(10)<<airline->mDepartureCity;
@@ -277,7 +296,6 @@ void AirlineGraph::ShowAirlineByAirport(int no)
         cout<<setw(8)<<airline->mCurrentNumber;
         cout<<setw(8)<<airline->mCapacity-airline->mCurrentNumber;
         cout<<endl;
-        airline=airline->mNextAirline;
     }
 }
 
