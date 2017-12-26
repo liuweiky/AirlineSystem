@@ -4,7 +4,7 @@ AirlineGraph::AirlineGraph()
 {
     LoadAirport();
     LoadAirline();
-    ShowAirlineGraph();
+    //ShowAirlineGraph();
     //WriteAirlineJson();
 }
 
@@ -347,6 +347,8 @@ void AirlineGraph::ShowDACityAirlineByDiscountPrice(string departure,string arri
         (*vec)[j+1]=airline;
     }
 
+    cout.setf(ios::left);
+
     cout<<endl<<"========================================================================================================================================================================"<<endl;
     cout<<setw(10)<<"º½°àºÅ";
     cout<<setw(25)<<"º½¿Õ¹«Ë¾";
@@ -401,6 +403,8 @@ void AirlineGraph::ShowDACityAirlineByDepartureTime(string departure,string arri
         }
         (*vec)[j+1]=airline;
     }
+
+    cout.setf(ios::left);
 
     cout<<endl<<"========================================================================================================================================================================"<<endl;
     cout<<setw(10)<<"º½°àºÅ";

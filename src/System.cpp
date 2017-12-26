@@ -2,9 +2,11 @@
 
 System::System()
 {
+    cout.setf(ios::left);
     mAirlineGraph=new AirlineGraph();
     mBookOrderVector=NULL;
     LoadBookOrder();
+    MenuDaemon();
 }
 
 System::~System()
@@ -114,7 +116,7 @@ void System::SearchAirlineByName(string name)
     }
     else
     {
-        cout<<endl<<"========================================================================================================================================================================"<<endl;
+        cout<<endl<<"==========================================="<<endl;
         cout<<"共有"<<vec->size()<<"个结果:"<<endl;
         for(vector<Airline*>::iterator it=vec->begin();it!=vec->end();it++)
         {
@@ -224,7 +226,7 @@ void System::Book()
 
         Array bookArray=GenerateBookJson();
         bookArray<<jsonObj;
-        cout<<bookArray.json();
+        //cout<<bookArray.json();
 
         ofstream outfile;
         outfile.open("Book.json");
@@ -320,7 +322,7 @@ void System::Book()
 
         Array bookArray=GenerateBookJson();
         bookArray<<jsonObj;
-        cout<<bookArray.json();
+        //cout<<bookArray.json();
 
         ofstream outfile;
         outfile.open("Book.json");
@@ -427,7 +429,7 @@ void System::Unsubscribe()
     }
 
     Array bookArray=GenerateBookJson();
-    cout<<bookArray.json();
+    //cout<<bookArray.json();
 
     ofstream outfile;
     outfile.open("Book.json");
@@ -437,7 +439,7 @@ void System::Unsubscribe()
 
     LoadBookOrder();
 
-    ShowBookList();
+    //ShowBookList();
 }
 
 void System::UnsubscribeByName(string name)
@@ -481,4 +483,97 @@ void System::UnsubscribeByNo(int no)
     vector<BookOrder*>::iterator it=mBookOrderVector->begin();
     mAirlineGraph->Unsubscribe(*(it+no-1));
     mBookOrderVector->erase(it+no-1);
+}
+
+void System::MenuDaemon()
+{
+    ShowMenu(0);
+
+    int operation=0;
+    cin>>operation;
+
+    while(operation)
+    {
+        int x,y,z;
+        string s1,s2,s3;
+        switch(operation)
+        {
+        case 1:
+            InsertAirlineInfo();
+            break;
+        case 2:
+            ShowAllAirlineToUser();
+            break;
+        case 3:
+            ShowMenu(3);
+            cin>>s1;
+            SearchAirlineByName(s1);
+            break;
+        case 4:
+            ShowBookList();
+            break;
+        case 5:
+            Book();
+            break;
+        case 6:
+            Unsubscribe();
+            break;
+        case 7:
+            ShowMenu(1);
+            cin>>x;
+            if(x==1)
+            {
+                ShowMenu(2);
+                cin>>s1>>s2;
+                mAirlineGraph->ShowDACityAirlineByDepartureTime(s1,s2);
+            }else if(x==2)
+            {
+                ShowMenu(2);
+                cin>>s1>>s2;
+                mAirlineGraph->ShowDACityAirlineByDiscountPrice(s1,s2);
+            }
+            break;
+        case 8:
+            break;
+        case 9:
+            break;
+        case 10:
+            break;
+        }
+        ShowMenu(0);
+        cin>>operation;
+    }
+}
+
+void System::ShowMenu(int i)
+{
+    switch(i)
+    {
+    case 0:
+        cout<<endl
+        <<"1) 录入航线"<<endl
+        <<"2) 浏览全部航线（！！！慎用，4000多条，信息量略大！！！）"<<endl
+        <<"3）航班号查询航线"<<endl
+        <<"4）查看订单情况"<<endl
+        <<"5）订票"<<endl
+        <<"6）退票"<<endl
+        <<"7）查询城间航线"<<endl
+        <<"0）退出"<<endl;
+        break;
+    case 1:
+        cout<<endl
+        <<"请选择排序方式"<<endl
+        <<"1）出发时间"<<endl
+        <<"2）折后票价"<<endl
+        <<"0）退出"<<endl;
+        break;
+    case 2:
+        cout<<endl
+        <<"请输入出发城市和到达城市："<<endl;
+        break;
+    case 3:
+        cout<<endl
+        <<"请输入航班号："<<endl;
+        break;
+    }
 }

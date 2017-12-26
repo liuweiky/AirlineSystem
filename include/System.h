@@ -16,7 +16,6 @@ class System
         void ShowAirlineByAirport(int no);  //预览某个机场的航班
         void ShowAirlineByCity(string city);    //预览某个城市的航班
         void SearchAirlineByName(string name);    //通过航班号查看详细信息
-        void SearchAirlineByDACity(string departure,string arrival);
         void LoadBookOrder();
         int GetBookOrderNum();
         void Book();    //订票
@@ -25,10 +24,12 @@ class System
         void UnsubscribeByName(string name); //通过姓名退票
         void UnsubscribeByIdNum(string Id); //通过证件号退票
         void UnsubscribeByNo(int no); //通过序号退票
+        void MenuDaemon();
     protected:
 
     private:
         Array GenerateBookJson();    //生成json
+        void ShowMenu(int i);
 };
 
 #endif // SYSTEM_H
