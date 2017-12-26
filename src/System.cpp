@@ -6,7 +6,9 @@ System::System()
     mAirlineGraph=new AirlineGraph();
     mBookOrderVector=NULL;
     LoadBookOrder();
+    mAirlineGraph->GetAdvisableRouteWithBFS("长春","上海",0,900);
     MenuDaemon();
+
 }
 
 System::~System()
@@ -558,6 +560,7 @@ void System::ShowMenu(int i)
         <<"5）订票"<<endl
         <<"6）退票"<<endl
         <<"7）查询城间航线"<<endl
+        <<"8）线路设计"<<endl
         <<"0）退出"<<endl;
         break;
     case 1:
@@ -574,6 +577,10 @@ void System::ShowMenu(int i)
     case 3:
         cout<<endl
         <<"请输入航班号："<<endl;
+        break;
+    case 4:
+        cout<<endl
+        <<"请输入出发城市、到达城市、出发时间和到达时间："<<endl;
         break;
     }
 }

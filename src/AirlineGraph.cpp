@@ -495,7 +495,7 @@ void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
     cout<<"==========================================="<<endl;
 }
 
-void AirlineGraph::GetAdvisableRouteWithDFS(string departure,string arrival)
+vector<Route>* AirlineGraph::GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime)
 {
     int InD[mAirportNumber]={0};
     int visit[mAirportNumber]={0};
@@ -508,35 +508,43 @@ void AirlineGraph::GetAdvisableRouteWithDFS(string departure,string arrival)
             airline=airline->mNextAirline;
         }
     }
-
-
-    //int d=GetAirportByName()
-    //vector< vector<Airline*> >* mainVec=new vector< vector<Airline*> >();
-    vector<Airline*> routeVec;
+    /*int f=GetAirportByName(departure)->No;
+    int a=GetAirportByName(arrival)->No;*/
     vector<Route>* mainVec=new vector<Route>();
-    //DFS(9,29,InD,visit,mainVec,routeVec);
-    /*for(vector< vector<Airline*> >::iterator it=mainVec->begin();it!=mainVec->end();it++)
-    {
-        vector<Airline*> vec=*it;
-        for(int i=0;i<vec.size();i++)
-        {
-            cout<<vec[i]->mAirlineName<<"->";
-        }
-        cout<<endl;
-    }*/
-
+    vector<Route>* retVec=new vector<Route>();
     BFS(9,29,InD,visit,mainVec);
-    cout<<mainVec->size();
+    //cout<<mainVec->size();
     for(vector<Route>::iterator it=mainVec->begin();it!=mainVec->end();it++)
     {
-        (*it).ShowRoute();
-        cout<<endl;
+        if((*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()>arrivalTime||(*it).mAirlineVec[0]->GetAirlineDepartureTimeStamp()<departureTime)
+        {
+            retVec->push_back(*it); //删除不符合条件的结果
+        }else{
+            (*it).SumToatalCost();
+        }
     }
+    /*for(int i=1;i<mainVec->size();i++)  //插入排序
+    {
+        Route r=(*mainVec)[i];
+        int j;
+        for(j=i-1;j>=0&&(r.mTotalCost)<(*mainVec)[j].mTotalCost;j--)
+        {
+            (*mainVec)[j+1]=(*mainVec)[j];
+        }
+        (*mainVec)[j+1]=r;
+    }*/
+    for(vector<Route>::iterator it=retVec->begin();it!=retVec->end();it++)
+    {
+        cout<<endl;
+        (*it).ShowRoute();
+    }
+    delete mainVec;
+    return retVec;
 }
 
 void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec)
 {
-    int k=5;   //参数k
+    int k=1;   //参数k
     queue<Route> q;
     Route r;
     r.mPrevNo=f;

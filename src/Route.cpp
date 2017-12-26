@@ -3,6 +3,7 @@
 Route::Route()
 {
     mPrevNo=-1;
+    mTotalCost=0;
 }
 
 Route::~Route()
@@ -18,6 +19,7 @@ Route& Route::operator=(const Route& r)
         mAirlineVec.push_back(*it);
     }
     mPrevNo=r.mPrevNo;
+    mTotalCost=r.mTotalCost;
     return *this;
 }
 
@@ -41,4 +43,18 @@ bool Route::CheckPass(string airport)
             return true;
     }
     return false;
+}
+
+int Route::GetRouteLength()
+{
+    return mAirlineVec.size();
+}
+
+int Route::SumToatalCost()
+{
+    for(vector<Airline*>::iterator it=mAirlineVec.begin(); it!=mAirlineVec.end(); it++)
+    {
+        mTotalCost+=(*it)->GetPriceAfterDiscount();
+    }
+    return mTotalCost;
 }

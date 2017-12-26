@@ -10,6 +10,7 @@ int main()
 {
     cout << "Hello world!" << endl;
     System* system=new System();
+    system->mAirlineGraph->GetAdvisableRouteWithBFS("长春","上海",0,900);
     //system->InsertAirlineInfo();
     //system->mAirlineGraph->ShowAirlineGraph();
     //system->ShowAllAirlineToUser();
@@ -22,8 +23,6 @@ int main()
     //system->mAirlineGraph->ShowDACityAirlineByDiscountPrice("长春","上海");
 
     //system->mAirlineGraph->ShowDACityAirlineByDepartureTime("北京","深圳");
-
-    //system->mAirlineGraph->GetAdvisableRouteWithDFS("长春","上海");
 
     return 0;
 }
