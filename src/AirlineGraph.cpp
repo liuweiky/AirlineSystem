@@ -318,7 +318,7 @@ void AirlineGraph::ShowDACityAirlineByDiscountPrice(string departure,string arri
 {
     vector<Airline*>* vec=GetAirlineByDACity(departure,arrival);
 
-    for(int i=1;i<vec->size();i++)
+    for(int i=1;i<vec->size();i++)  //插入排序
     {
         Airline* airline=(*vec)[i];
         int j;
@@ -329,7 +329,7 @@ void AirlineGraph::ShowDACityAirlineByDiscountPrice(string departure,string arri
         (*vec)[j+1]=airline;
     }
 
-
+    cout<<endl<<"========================================================================================================================================================================"<<endl;
     cout<<setw(10)<<"航班号";
     cout<<setw(25)<<"航空公司";
     cout<<setw(10)<<"出发地";
@@ -366,6 +366,62 @@ void AirlineGraph::ShowDACityAirlineByDiscountPrice(string departure,string arri
         cout<<setw(8)<<airline->mCapacity-airline->mCurrentNumber;
         cout<<endl;
     }
+    cout<<endl<<"========================================================================================================================================================================"<<endl;
+}
+
+void AirlineGraph::ShowDACityAirlineByDepartureTime(string departure,string arrival)
+{
+    vector<Airline*>* vec=GetAirlineByDACity(departure,arrival);
+
+    for(int i=1;i<vec->size();i++)
+    {
+        Airline* airline=(*vec)[i];
+        int j;
+        for(j=i-1;j>=0&&(airline->GetAirlineTimeStamp())<(*vec)[j]->GetAirlineTimeStamp();j--)
+        {
+            (*vec)[j+1]=(*vec)[j];
+        }
+        (*vec)[j+1]=airline;
+    }
+
+    cout<<endl<<"========================================================================================================================================================================"<<endl;
+    cout<<setw(10)<<"航班号";
+    cout<<setw(25)<<"航空公司";
+    cout<<setw(10)<<"出发地";
+    cout<<setw(20)<<"起飞机场";
+    cout<<setw(10)<<"目的地";
+    cout<<setw(20)<<"着陆机场";
+    cout<<setw(10)<<"起飞时间";
+    cout<<setw(10)<<"抵达时间";
+    cout<<setw(8)<<"机型";
+    cout<<setw(8)<<"票价";
+    cout<<setw(8)<<"折扣";
+    cout<<setw(9)<<"折后票价";
+    cout<<setw(8)<<"载客量";
+    cout<<setw(8)<<"已售";
+    cout<<setw(8)<<"余票";
+    cout<<endl<<endl;
+    for(vector<Airline*>::iterator it=vec->begin();it!=vec->end();it++)
+    {
+        Airline* airline=*it;
+        cout<<setw(10)<<airline->mAirlineName;
+        cout<<setw(25)<<airline->mCompany;
+        cout<<setw(10)<<airline->mDepartureCity;
+        cout<<setw(20)<<airline->mDepartureAirport;
+        cout<<setw(10)<<airline->mArrivalCity;
+        cout<<setw(20)<<airline->mArrivalAirport;
+        cout<<setw(10)<<airline->mDepartureTime;
+        cout<<setw(10)<<airline->mArrivalTime;
+        cout<<setw(8)<<airline->mAirplaneModel;
+        cout<<setw(8)<<airline->mPrice;
+        cout<<setw(8)<<airline->mIntDiscount/1000.0;
+        cout<<setw(9)<<airline->mPrice*(1-airline->mIntDiscount/1000.0);
+        cout<<setw(8)<<airline->mCapacity;
+        cout<<setw(8)<<airline->mCurrentNumber;
+        cout<<setw(8)<<airline->mCapacity-airline->mCurrentNumber;
+        cout<<endl;
+    }
+    cout<<endl<<"========================================================================================================================================================================"<<endl;
 }
 
 void AirlineGraph::ShowAirlineByCity(string city)

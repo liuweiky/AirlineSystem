@@ -32,6 +32,8 @@ int main()
     //system->Book();
     system->mAirlineGraph->ShowDACityAirlineByDiscountPrice("北京","上海");
 
+    system->mAirlineGraph->ShowDACityAirlineByDepartureTime("北京","上海");
+
     Object obj;
     obj<<"Airline Number"<<999;
     Array arr;

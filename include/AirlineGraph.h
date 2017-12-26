@@ -35,6 +35,7 @@ class AirlineGraph
         vector<Airline*>* FindAirlineByName(string name);//Í¨¹ýº½°àºÅ²éÕÒ
         vector<Airline*>* GetAirlineByDACity(string departure,string arrival);
         void ShowDACityAirlineByDiscountPrice(string departure,string arrival);
+        void ShowDACityAirlineByDepartureTime(string departure,string arrival);
     protected:
 
     private:

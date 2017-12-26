@@ -1,6 +1,7 @@
 #ifndef AIRLINE_H
 #define AIRLINE_H
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 
 class Airline
@@ -23,6 +24,7 @@ class Airline
         int mCurrentNumber;         //当前人数
         Airline* mNextAirline;      //下一航班
         int GetPriceAfterDiscount();
+        int GetAirlineTimeStamp();
     protected:
 
     private:
