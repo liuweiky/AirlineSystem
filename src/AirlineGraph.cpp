@@ -24,7 +24,6 @@ void AirlineGraph::LoadAirport()
     s=tmp.str();
     AirportArray.parse(s);  //解析json
     mAirportNumber=AirportArray.size();
-  //  cout<<mAirportNumber<<endl;
     mAirportHeadArray=new Airport*[mAirportNumber];
     for(int i=0;i<mAirportNumber;i++)   //生成顶点表
     {
@@ -90,8 +89,8 @@ Airport* AirlineGraph::FindAirportByName(string name)
     return NULL;
 }
 
-void AirlineGraph::InsertAirlineGraph(Airport* airport,Airline* airline)
 //插入航班 创建时调用
+void AirlineGraph::InsertAirlineGraph(Airport* airport,Airline* airline)
 {
     Airline* line=airport->mAdjAirline;
     if(line==NULL)
@@ -123,22 +122,12 @@ void AirlineGraph::ShowAirlineGraph()
         while(airline!=NULL)
         {
             cout<<airline->mAirlineName<<"\t";
-            /*cout<<setw(25)<<airline->mAirlineName<<setw(25);
-            cout<<airline->mCompany<<setw(35);
-            cout<<airline->mDepartureAirport<<setw(25);
-            cout<<airline->mArrivalAirport<<setw(25);
-            cout<<airline->mDepartureTime<<setw(13);
-            cout<<airline->mArrivalTime<<setw(13);
-            cout<<airline->mAirplaneModel<<setw(13);
-            cout<<airline->mDepartureCity<<setw(13);
-            cout<<airline->mArrivalCity;
-            cout<<endl;*/
             airline=airline->mNextAirline;
         }
     }
     cout<<endl<<"======================================================================================================================"<<endl;
 }
-//生成文件保存
+//生成json
 Array AirlineGraph::GenerateAirlineJson()
 {
     Array jsonArray;
@@ -164,17 +153,6 @@ Array AirlineGraph::GenerateAirlineJson()
             jsonObj<<"当前人数"<<airline->mCurrentNumber;
 
             jsonArray<<jsonObj;
-            //cout<<airline->mAirlineName<<"\t";
-            /*cout<<setw(25)<<airline->mAirlineName<<setw(25);
-            cout<<airline->mCompany<<setw(35);
-            cout<<airline->mDepartureAirport<<setw(25);
-            cout<<airline->mArrivalAirport<<setw(25);
-            cout<<airline->mDepartureTime<<setw(13);
-            cout<<airline->mArrivalTime<<setw(13);
-            cout<<airline->mAirplaneModel<<setw(13);
-            cout<<airline->mDepartureCity<<setw(13);
-            cout<<airline->mArrivalCity;
-            cout<<endl;*/
             airline=airline->mNextAirline;
         }
     }
@@ -216,12 +194,12 @@ void AirlineGraph::InsertAirline(Airline* airline)
     }
 }
 
-
 string AirlineGraph::GetAirportLocation(string airportName)
 {
     return FindAirportByName(airportName)->mLocation;
 }
-//查询某个航线的情况如输入航班号
+
+//输入航班号获取所有可能的航线
 vector<Airline*>* AirlineGraph::FindAirlineByName(string name)
 {
     vector<Airline*>* vec=new vector<Airline*>();
@@ -233,19 +211,6 @@ vector<Airline*>* AirlineGraph::FindAirlineByName(string name)
         {
             if(airline->mAirlineName==name)
             {
-                /*cout<<"航班号:"<<airline->mAirlineName<<endl;
-                cout<<"公司:"<<airline->mCompany<<endl;
-                cout<<"起始城市:"<<airline->mDepartureCity<<endl;
-                cout<<"起飞机场:"<<airline->mDepartureAirport<<endl;
-                cout<<"到达城市:"<<airline->mArrivalCity<<endl;
-                cout<<"到达机场:"<<airline->mArrivalAirport<<endl;
-                cout<<"起飞时间:"<<airline->mDepartureTime<<endl;
-                cout<<"到达时间:"<<airline->mArrivalTime<<endl;
-                cout<<"机型:"<<airline->mAirplaneModel<<endl;
-                cout<<"价格:"<<airline->mPrice<<endl;
-                cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
-                cout<<"满载:"<<airline->mCapacity<<endl;
-                cout<<"当前人数:"<<airline->mCurrentNumber<<endl;*/
                 vec->push_back(airline);
             }
             airline=airline->mNextAirline;
@@ -346,8 +311,8 @@ void AirlineGraph::ShowAirlineByCity(string city)
 
 void AirlineGraph::Book(Airline* airline)
 {
-    airline->mCurrentNumber=airline->mCurrentNumber+1;
-    WriteAirlineJson();
+    airline->mCurrentNumber=airline->mCurrentNumber+1;  //已订人数+1
+    WriteAirlineJson(); //写出，更新本地数据
 }
 
 void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
@@ -357,8 +322,8 @@ void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
     {
         if((*it)->mDepartureAirport==bookOrder->mDepartureAirport&&(*it)->mArrivalAirport==bookOrder->mArrivalAirport)
         {
-            (*it)->mCurrentNumber=(*it)->mCurrentNumber-1;
-            WriteAirlineJson();
+            (*it)->mCurrentNumber=(*it)->mCurrentNumber-1;  //已订人数-1
+            WriteAirlineJson(); //写出，更新本地数据
             break;
         }
     }
@@ -375,35 +340,5 @@ void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
     cout<<setw(12)<<"购买价格:"<<bookOrder->mPrice<<endl;
     cout<<endl;
     cout<<"==========================================="<<endl;
-}
-
-//按价格排序
-void AirlineGraph::SortByPrize(string name1,string name2)
-{
-    for(int i=0;i<mAirportNumber;i++)
-    {
-        Airport* airport=mAirportHeadArray[i];
-        Airline* airline=airport->mAdjAirline;
-        while(airline!=NULL)
-        {
-            if(airline->mDepartureCity==name1&&airline->mArrivalCity==name2)
-            {
-                cout<<"航班号:"<<airline->mAirlineName<<endl;
-                cout<<"公司:"<<airline->mCompany<<endl;
-                cout<<"起始城市:"<<airline->mDepartureCity<<endl;
-                cout<<"起飞机场:"<<airline->mDepartureAirport<<endl;
-                cout<<"到达城市:"<<airline->mArrivalCity<<endl;
-                cout<<"到达机场:"<<airline->mArrivalAirport<<endl;
-                cout<<"起飞时间:"<<airline->mDepartureTime<<endl;
-                cout<<"到达时间:"<<airline->mArrivalTime<<endl;
-                cout<<"机型:"<<airline->mAirplaneModel<<endl;
-                cout<<"价格:"<<airline->mPrice<<endl;
-                cout<<"最大折扣:"<<airline->mIntDiscount<<endl;
-                cout<<"满载:"<<airline->mCapacity<<endl;
-                cout<<"当前人数:"<<airline->mCurrentNumber<<endl;
-            }
-            airline=airline->mNextAirline;
-        }
-    }
 }
 

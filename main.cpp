@@ -8,7 +8,6 @@ using namespace jsonxx;
 
 int main()
 {
-    cout<<"บวบว"<<endl;
     cout << "Hello world!" << endl;
     string teststr(
         "{"

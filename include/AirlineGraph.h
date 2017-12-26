@@ -29,12 +29,10 @@ class AirlineGraph
         void ShowAirlineGraph();    //打印输出边链表
         void WriteAirlineJson();    //写json到文件
         void Book(Airline* airline);    //接收外部订票信息，更新余票
-        void Unsubscribe(BookOrder* bookOrder);
+        void Unsubscribe(BookOrder* bookOrder); //接收外部退订信息，更新余票
         vector<int>* GetAirportIdByLocation(string loc);    //通过城市获取该城市所有机场的Id
         string GetAirportLocation(string airportName);  //获得机场所在城市
         vector<Airline*>* FindAirlineByName(string name);//通过航班号查找
-        void SortByPrize(string name1,string name2);//按时间排序
-        void SortByTime(string name1,string name2);//按时间排序
     protected:
 
     private:
