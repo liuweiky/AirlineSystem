@@ -5,12 +5,6 @@ System::System()
     mAirlineGraph=new AirlineGraph();
     mBookOrderVector=NULL;
     LoadBookOrder();
-    /*ofstream outfile;
-    outfile.open("Airline.json");
-    Array jsonArray=GenerateAirlineJson();
-    cout<<jsonArray.json();
-    outfile<<jsonArray.json();
-    outfile.close();*/
 }
 
 System::~System()
@@ -111,7 +105,7 @@ void System::ShowAirlineByCity(string city)
     mAirlineGraph->ShowAirlineByCity(city);
 }
 
-void System::SearchAirline(string name)
+void System::SearchAirlineByName(string name)
 {
     vector<Airline*>* vec=mAirlineGraph->FindAirlineByName(name);
     if(vec->size()==0)
@@ -149,10 +143,6 @@ void System::SearchAirline(string name)
 
 void System::Book()
 {
-    /*cout<<jsonArray.json();
-    outfile<<jsonArray.json();
-    outfile.close();*/
-
     string name;
     cout<<endl<<"请输入航班号："<<endl;
     cin>>name;
@@ -371,25 +361,6 @@ Array System::GenerateBookJson()
 
         jsonArray<<jsonObj;
     }
-
-    /*mBookOrderVector=new vector<BookOrder*>();
-    for(int i=0;i<BookArray.size();i++)  //保存航线到vector
-    {
-        BookOrder* bookOrder=new BookOrder();
-        bookOrder->mName=BookArray.get<Object>(i).get<String>("姓名");
-        bookOrder->mIdNumber=BookArray.get<Object>(i).get<String>("证件号");
-        bookOrder->mAirlineName=BookArray.get<Object>(i).get<String>("航班号");
-        bookOrder->mCompany=BookArray.get<Object>(i).get<String>("公司");
-        bookOrder->mDepartureAirport=BookArray.get<Object>(i).get<String>("起飞机场");
-        bookOrder->mArrivalAirport=BookArray.get<Object>(i).get<String>("到达机场");
-        bookOrder->mDepartureTime=BookArray.get<Object>(i).get<String>("起飞时间");
-        bookOrder->mArrivalTime=BookArray.get<Object>(i).get<String>("到达时间");
-        bookOrder->mAirplaneModel=BookArray.get<Object>(i).get<String>("机型");
-        bookOrder->mDepartureCity=BookArray.get<Object>(i).get<String>("起始城市");
-        bookOrder->mArrivalCity=BookArray.get<Object>(i).get<String>("到达城市");
-        bookOrder->mPrice=BookArray.get<Object>(i).get<Number>("购买价格");
-        mBookOrderVector->push_back(bookOrder);
-    }*/
     return jsonArray;
 }
 

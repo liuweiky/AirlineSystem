@@ -11,16 +11,16 @@ class BookOrder
         virtual ~BookOrder();
         string mName;
         string mIdNumber;
-        string mAirlineName;        //èˆªç­å·
-        string mCompany;            //èˆªç­å…¬å¸
-        string mDepartureCity;      //èµ·é£åŸå¸‚
-        string mDepartureAirport;   //èµ·é£æœºåœº
-        string mArrivalCity;        //åˆ°è¾¾åŸå¸‚
-        string mArrivalAirport;     //åˆ°è¾¾æœºåœº
-        string mDepartureTime;      //èµ·é£æ—¶é—´
-        string mArrivalTime;        //åˆ°è¾¾æ—¶é—´
-        string mAirplaneModel;      //æœºå‹
-        int mPrice;                 //ä»·æ ¼
+        string mAirlineName;        //º½°àºÅ
+        string mCompany;            //º½°à¹«Ë¾
+        string mDepartureCity;      //Æğ·É³ÇÊĞ
+        string mDepartureAirport;   //Æğ·É»ú³¡
+        string mArrivalCity;        //µ½´ï³ÇÊĞ
+        string mArrivalAirport;     //µ½´ï»ú³¡
+        string mDepartureTime;      //Æğ·ÉÊ±¼ä
+        string mArrivalTime;        //µ½´ïÊ±¼ä
+        string mAirplaneModel;      //»úĞÍ
+        int mPrice;                 //¼Û¸ñ
     protected:
 
     private:

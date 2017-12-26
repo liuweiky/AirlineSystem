@@ -20,7 +20,7 @@ class AirlineGraph
         int mAirportNumber; //机场数量
         Airport** mAirportHeadArray;    //顶点表
         vector<Airline*>* mAirlineVector;   //保存航线
-        Airport* FindAirportByName(string name);    //查找机场，获取指针
+        Airport* GetAirportByName(string name);    //查找机场，获取指针
         int GetAirlineNumber(); //返回航线数目
         void InsertAirline(Airline* airline);   //外部插入接口
         void ShowAllAirlineToUser();    //预览已经建立的全部航线的相关信息
@@ -33,6 +33,8 @@ class AirlineGraph
         vector<int>* GetAirportIdByLocation(string loc);    //通过城市获取该城市所有机场的Id
         string GetAirportLocation(string airportName);  //获得机场所在城市
         vector<Airline*>* FindAirlineByName(string name);//通过航班号查找
+        vector<Airline*>* GetAirlineByDACity(string departure,string arrival);
+        void ShowDACityAirlineByDiscountPrice(string departure,string arrival);
     protected:
 
     private:

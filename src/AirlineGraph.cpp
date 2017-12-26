@@ -65,7 +65,7 @@ void AirlineGraph::LoadAirline()
         airline->mCurrentNumber=AirlineArray.get<Object>(i).get<Number>("当前人数");
         mAirlineVector->push_back(airline);
 
-        Airport* airport=FindAirportByName(airline->mDepartureAirport);
+        Airport* airport=GetAirportByName(airline->mDepartureAirport);
         if(airport!=NULL)   //判断机场是否存在
         {
             InsertAirlineGraph(airport,airline);    //插入到图
@@ -75,7 +75,7 @@ void AirlineGraph::LoadAirline()
     //cout<<AirlineArray.json();
 }
 //通过航班号查询航班
-Airport* AirlineGraph::FindAirportByName(string name)
+Airport* AirlineGraph::GetAirportByName(string name)
 {
     for(int i=0;i<mAirportNumber;i++)
     {
@@ -176,8 +176,8 @@ int AirlineGraph::GetAirlineNumber()
 
 void AirlineGraph::InsertAirline(Airline* airline)
 {
-    Airport* dAirport=FindAirportByName(airline->mDepartureAirport);
-    Airport* aAirport=FindAirportByName(airline->mArrivalAirport);
+    Airport* dAirport=GetAirportByName(airline->mDepartureAirport);
+    Airport* aAirport=GetAirportByName(airline->mArrivalAirport);
 
     if(dAirport==NULL||aAirport==NULL)
     {
@@ -191,12 +191,13 @@ void AirlineGraph::InsertAirline(Airline* airline)
     {
         mAirlineVector->push_back(airline);
         InsertAirlineGraph(dAirport,airline);    //插入到图
+        WriteAirlineJson(); //写出，更新航线数据文件
     }
 }
 
 string AirlineGraph::GetAirportLocation(string airportName)
 {
-    return FindAirportByName(airportName)->mLocation;
+    return GetAirportByName(airportName)->mLocation;
 }
 
 //输入航班号获取所有可能的航线
@@ -291,6 +292,80 @@ vector<int>* AirlineGraph::GetAirportIdByLocation(string loc)
         }
     }
     return vec;
+}
+
+vector<Airline*>* AirlineGraph::GetAirlineByDACity(string departure,string arrival)
+{
+    vector<Airline*>* vec=new vector<Airline*>();
+    vector<int>* dAirportVec=new vector<int>();
+    dAirportVec=GetAirportIdByLocation(departure);
+    for(vector<int>::iterator dit=dAirportVec->begin();dit!=dAirportVec->end();dit++)
+    {
+        Airline* airline=mAirportHeadArray[*dit]->mAdjAirline;
+        while(airline!=NULL)
+        {
+            if(airline->mArrivalCity==arrival)
+            {
+                vec->push_back(airline);
+            }
+            airline=airline->mNextAirline;
+        }
+    }
+    return vec;
+}
+
+void AirlineGraph::ShowDACityAirlineByDiscountPrice(string departure,string arrival)
+{
+    vector<Airline*>* vec=GetAirlineByDACity(departure,arrival);
+
+    for(int i=1;i<vec->size();i++)
+    {
+        Airline* airline=(*vec)[i];
+        int j;
+        for(j=i-1;j>=0&&(airline->GetPriceAfterDiscount())<(*vec)[j]->GetPriceAfterDiscount();j--)
+        {
+            (*vec)[j+1]=(*vec)[j];
+        }
+        (*vec)[j+1]=airline;
+    }
+
+
+    cout<<setw(10)<<"航班号";
+    cout<<setw(25)<<"航空公司";
+    cout<<setw(10)<<"出发地";
+    cout<<setw(20)<<"起飞机场";
+    cout<<setw(10)<<"目的地";
+    cout<<setw(20)<<"着陆机场";
+    cout<<setw(10)<<"起飞时间";
+    cout<<setw(10)<<"抵达时间";
+    cout<<setw(8)<<"机型";
+    cout<<setw(8)<<"票价";
+    cout<<setw(8)<<"折扣";
+    cout<<setw(9)<<"折后票价";
+    cout<<setw(8)<<"载客量";
+    cout<<setw(8)<<"已售";
+    cout<<setw(8)<<"余票";
+    cout<<endl<<endl;
+    for(vector<Airline*>::iterator it=vec->begin();it!=vec->end();it++)
+    {
+        Airline* airline=*it;
+        cout<<setw(10)<<airline->mAirlineName;
+        cout<<setw(25)<<airline->mCompany;
+        cout<<setw(10)<<airline->mDepartureCity;
+        cout<<setw(20)<<airline->mDepartureAirport;
+        cout<<setw(10)<<airline->mArrivalCity;
+        cout<<setw(20)<<airline->mArrivalAirport;
+        cout<<setw(10)<<airline->mDepartureTime;
+        cout<<setw(10)<<airline->mArrivalTime;
+        cout<<setw(8)<<airline->mAirplaneModel;
+        cout<<setw(8)<<airline->mPrice;
+        cout<<setw(8)<<airline->mIntDiscount/1000.0;
+        cout<<setw(9)<<airline->mPrice*(1-airline->mIntDiscount/1000.0);
+        cout<<setw(8)<<airline->mCapacity;
+        cout<<setw(8)<<airline->mCurrentNumber;
+        cout<<setw(8)<<airline->mCapacity-airline->mCurrentNumber;
+        cout<<endl;
+    }
 }
 
 void AirlineGraph::ShowAirlineByCity(string city)
