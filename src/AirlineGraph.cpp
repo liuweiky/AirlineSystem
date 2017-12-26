@@ -247,7 +247,7 @@ void AirlineGraph::ShowAirlineByAirport(int no)
     {
         Airline* airline=vec[i];
         int j;
-        for(j=i-1;j>=0&&(airline->GetAirlineTimeStamp())<vec[j]->GetAirlineTimeStamp();j--)
+        for(j=i-1;j>=0&&(airline->GetAirlineDepartureTimeStamp())<vec[j]->GetAirlineDepartureTimeStamp();j--)
         {
             vec[j+1]=vec[j];
         }
@@ -395,7 +395,7 @@ void AirlineGraph::ShowDACityAirlineByDepartureTime(string departure,string arri
     {
         Airline* airline=(*vec)[i];
         int j;
-        for(j=i-1;j>=0&&(airline->GetAirlineTimeStamp())<(*vec)[j]->GetAirlineTimeStamp();j--)
+        for(j=i-1;j>=0&&(airline->GetAirlineDepartureTimeStamp())<(*vec)[j]->GetAirlineDepartureTimeStamp();j--)
         {
             (*vec)[j+1]=(*vec)[j];
         }
@@ -491,3 +491,193 @@ void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
     cout<<"==========================================="<<endl;
 }
 
+void AirlineGraph::GetAdvisableRouteWithDFS(string departure,string arrival)
+{
+    int InD[mAirportNumber]={0};
+    int visit[mAirportNumber]={0};
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airline* airline=mAirportHeadArray[i]->mAdjAirline;
+        while(airline!=NULL)
+        {
+            InD[GetAirportByName(airline->mArrivalAirport)->No]+=1; //统计机场入度
+            airline=airline->mNextAirline;
+        }
+    }
+
+
+    //int d=GetAirportByName()
+    //vector< vector<Airline*> >* mainVec=new vector< vector<Airline*> >();
+    vector<Airline*> routeVec;
+    vector<Route>* mainVec=new vector<Route>();
+    //DFS(9,29,InD,visit,mainVec,routeVec);
+    /*for(vector< vector<Airline*> >::iterator it=mainVec->begin();it!=mainVec->end();it++)
+    {
+        vector<Airline*> vec=*it;
+        for(int i=0;i<vec.size();i++)
+        {
+            cout<<vec[i]->mAirlineName<<"->";
+        }
+        cout<<endl;
+    }*/
+
+    for(int i=0;i<mAirportNumber;i++)
+    cout<<visit[i]<<" "<<InD[i]<<endl;
+    BFS(9,29,InD,visit,mainVec,routeVec);
+    cout<<mainVec->size();
+    for(vector<Route>::iterator it=mainVec->begin();it!=mainVec->end();it++)
+    {
+        (*it).ShowRoute();
+        cout<<endl;
+    }
+for(int i=0;i<mAirportNumber;i++)
+    cout<<visit[i]<<" "<<InD[i]<<endl;
+}
+
+void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec,vector<Airline*> routeVec)
+{
+    queue<Route> q;
+    Route r;
+    r.prevNo=f;
+    q.push(r);
+    while(!q.empty())
+    {
+        Route r0=q.front();
+        q.pop();
+        Airline* airline=mAirportHeadArray[r0.prevNo]->mAdjAirline;
+        while(airline!=NULL)
+        {
+            if(!r0.CheckPass(airline->mArrivalAirport))
+            {
+                if(r0.mAirlineVec.size()>0)
+                {
+                    if(r0.mAirlineVec[r0.mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp())
+                    {
+                        int no=GetAirportByName(airline->mArrivalAirport)->No;
+                        if(visit[no]<10*InD[no])
+                        {
+                            Route rNew=r0;
+                            rNew.mAirlineVec.push_back(airline);
+                            rNew.prevNo=no;
+                            visit[no]+=1;
+                            if(no!=a)
+                            {
+                                q.push(rNew);
+                            }
+                            else
+                            {
+                                mainVec->push_back(rNew);
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    int no=GetAirportByName(airline->mArrivalAirport)->No;
+                    if(visit[no]<InD[no])
+                    {
+                        Route rNew=r0;
+                        rNew.mAirlineVec.push_back(airline);
+                        rNew.prevNo=no;
+                        visit[no]+=1;
+                        if(no!=a)
+                        {
+                            q.push(rNew);
+                        }
+                        else
+                        {
+                            mainVec->push_back(rNew);
+                        }
+                    }
+                }
+
+
+            }
+
+            airline=airline->mNextAirline;
+        }
+    }
+}
+
+void AirlineGraph::DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> >* mainVec,vector<Airline*> routeVec)
+{
+    if(v!=a)    //未到达目的地
+    {
+
+        /*for(int j=0;j<routeVec.size();j++)
+        {
+            cout<<routeVec[j]<<"  ";
+        }
+        cout<<endl;*/
+
+        visit[v]+=1;
+        //cout<<"visit: "<<visit[v]<<"ind: "<<InD[v]<<endl;
+        Airline* airline=mAirportHeadArray[v]->mAdjAirline;
+        //cout<<v<<endl;
+        while(airline!=NULL)
+        {
+            //cout<<airline->mAirlineName<<endl;
+            int no=GetAirportByName(airline->mArrivalAirport)->No;
+            bool tag=0;
+            for(int i=0;i<routeVec.size();i++)
+            {
+                if(routeVec[i]->mArrivalAirport==airline->mArrivalAirport)
+                {
+                    tag=1;
+                    break;
+                }
+            }
+            if(routeVec.size()==0)
+            {
+                if(visit[no]<InD[no]&&!tag)   //比较访问次数，检测是否小于入度
+                {
+                    vector<Airline*> newRoute;
+                    for(vector<Airline*>::iterator it=routeVec.begin(); it!=routeVec.end(); it++)
+                    {
+                        newRoute.push_back(*it);
+                    }
+                    newRoute.push_back(airline);
+                    DFS(no,a,InD,visit,mainVec,newRoute);
+                }
+                else
+                {
+                    //cout<<"大于入度"<<endl;
+                }
+            }
+            else if(routeVec[routeVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp()/*&&airline->GetAirlineDepartureTimeStamp()<airline->GetAirlineArrivalTimeStamp()*/)
+            {
+                if(visit[no]<InD[no]&&!tag)   //比较访问次数，检测是否小于入度
+                {
+                    vector<Airline*> newRoute;
+                    for(vector<Airline*>::iterator it=routeVec.begin(); it!=routeVec.end(); it++)
+                    {
+                        newRoute.push_back(*it);
+                    }
+                    newRoute.push_back(airline);
+                    DFS(no,a,InD,visit,mainVec,newRoute);
+                }
+                else
+                {
+                    //cout<<"大于入度"<<endl;
+                }
+            }
+            airline=airline->mNextAirline;
+        }
+    }else   //到达目的地，终止DFS
+    {
+        visit[v]+=1;
+        /*for(int i=0;i<routeVec.size();i++)
+        {
+            cout<<routeVec[i]->mArrivalAirport<<"->";
+        }
+        cout<<endl;*/
+        mainVec->push_back(routeVec);   //将路径保存至 mainVec
+        /*for(int j=0;j<routeVec.size();j++)
+        {
+            cout<<routeVec[j]<<"  ";
+        }*/
+        //cout<<endl;
+    }
+
+}

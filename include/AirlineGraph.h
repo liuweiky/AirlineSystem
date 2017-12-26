@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <queue>
+#include "Route.h"
 
 using std::setw;
 using namespace jsonxx;
@@ -36,6 +38,8 @@ class AirlineGraph
         vector<Airline*>* GetAirlineByDACity(string departure,string arrival);
         void ShowDACityAirlineByDiscountPrice(string departure,string arrival);
         void ShowDACityAirlineByDepartureTime(string departure,string arrival);
+        void GetAdvisableRouteWithDFS(string departure,string arrival);
+
     protected:
 
     private:
@@ -43,6 +47,8 @@ class AirlineGraph
         void LoadAirport(); //从本地载入机场数据
         void LoadAirline(); //从本地载入航线数据
         void InsertAirlineGraph(Airport* airport,Airline* airline); //在图中插入边（插入航线）
+        void DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> >* mainVec,vector<Airline*> routeVec);
+        void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec,vector<Airline*> routeVec);
 };
 
 #endif // AIRLINEGRAPH_H

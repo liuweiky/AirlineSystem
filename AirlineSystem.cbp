@@ -40,6 +40,7 @@
 		<Unit filename="include/BookOrder.h" />
 		<Unit filename="include/FileUtil.h" />
 		<Unit filename="include/MappingUtil.h" />
+		<Unit filename="include/Route.h" />
 		<Unit filename="include/System.h" />
 		<Unit filename="include/jsonxx.h" />
 		<Unit filename="main.cpp" />
@@ -49,6 +50,7 @@
 		<Unit filename="src/BookOrder.cpp" />
 		<Unit filename="src/FileUtil.cpp" />
 		<Unit filename="src/MappingUtil.cpp" />
+		<Unit filename="src/Route.cpp" />
 		<Unit filename="src/System.cpp" />
 		<Unit filename="src/jsonxx.cpp" />
 		<Extensions>

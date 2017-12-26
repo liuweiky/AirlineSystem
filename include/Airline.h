@@ -24,7 +24,8 @@ class Airline
         int mCurrentNumber;         //当前人数
         Airline* mNextAirline;      //下一航班
         int GetPriceAfterDiscount();
-        int GetAirlineTimeStamp();
+        int GetAirlineDepartureTimeStamp();
+        int GetAirlineArrivalTimeStamp();
     protected:
 
     private:
