@@ -70,11 +70,6 @@ void System::InsertAirlineInfo()
     cin>>airline->mCompany;
     cout<<"请输入航班号："<<endl;
     cin>>airline->mAirlineName;
-    if(mAirlineGraph->FindAirlineByName(airline->mAirlineName)->size()!=0)
-    {
-        cout<<"已存在该航班！"<<endl;
-        return;
-    }
     cout<<"请输入起飞时间："<<endl;
     cin>>airline->mDepartureTime;
     cout<<"请输入到达时间："<<endl;
@@ -101,6 +96,7 @@ void System::InsertAirlineInfo()
     cout<<"请输入折扣（1000%）："<<endl;
     cin>>airline->mIntDiscount;
     mAirlineGraph->InsertAirline(airline);
+    cout<<endl<<"航班"<<airline->mAirlineName<<"录入成功！"<<endl;
 }
 
 void System::ShowAllAirlineToUser()
