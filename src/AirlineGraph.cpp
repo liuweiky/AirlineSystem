@@ -495,7 +495,7 @@ void AirlineGraph::Unsubscribe(BookOrder* bookOrder)
     cout<<"==========================================="<<endl;
 }
 
-vector<Route>* AirlineGraph::GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime)
+vector<Route*>* AirlineGraph::GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime)
 {
     int InD[mAirportNumber]={0};
     int visit[mAirportNumber]={0};
@@ -508,37 +508,50 @@ vector<Route>* AirlineGraph::GetAdvisableRouteWithBFS(string departure,string ar
             airline=airline->mNextAirline;
         }
     }
-    /*int f=GetAirportByName(departure)->No;
-    int a=GetAirportByName(arrival)->No;*/
+    vector<int>* dAirportId=GetAirportIdByLocation(departure);
+    vector<int>* aAirportId=GetAirportIdByLocation(arrival);
     vector<Route>* mainVec=new vector<Route>();
-    vector<Route>* retVec=new vector<Route>();
-    BFS(9,29,InD,visit,mainVec);
-    //cout<<mainVec->size();
+    vector<Route*>* retVec=new vector<Route*>();
+
+    for(int i=0;i<dAirportId->size();i++)
+    {
+        for(int j=0;j<aAirportId->size();j++)
+        {
+            BFS((*dAirportId)[i],(*aAirportId)[j],InD,visit,mainVec);
+            for(int k=0;k<mAirportNumber;k++)
+            {
+                visit[k]=0;
+            }
+        }
+    }
+
+    //BFS(124,86,InD,visit,mainVec);
+    //BFS(124,87,InD,visit,mainVec);
     for(vector<Route>::iterator it=mainVec->begin();it!=mainVec->end();it++)
     {
-        if((*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()>arrivalTime||(*it).mAirlineVec[0]->GetAirlineDepartureTimeStamp()<departureTime)
+        if((*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineDepartureTimeStamp()<arrivalTime
+           &&(*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<arrivalTime
+           &&(*it).mAirlineVec[0]->GetAirlineDepartureTimeStamp()>departureTime
+           &&(*it).mAirlineVec[0]->GetAirlineArrivalTimeStamp()>departureTime)
         {
-            retVec->push_back(*it); //删除不符合条件的结果
-        }else{
             (*it).SumToatalCost();
-        }
-    }
-    /*for(int i=1;i<mainVec->size();i++)  //插入排序
-    {
-        Route r=(*mainVec)[i];
-        int j;
-        for(j=i-1;j>=0&&(r.mTotalCost)<(*mainVec)[j].mTotalCost;j--)
+            retVec->push_back(&(*it)); //删除不符合条件的结果
+        }else
         {
-            (*mainVec)[j+1]=(*mainVec)[j];
+            //mainVec->erase(it);
         }
-        (*mainVec)[j+1]=r;
-    }*/
-    for(vector<Route>::iterator it=retVec->begin();it!=retVec->end();it++)
-    {
-        cout<<endl;
-        (*it).ShowRoute();
     }
-    delete mainVec;
+    for(int i=1;i<retVec->size();i++)  //插入排序
+    {
+        Route* r=(*retVec)[i];
+        int j;
+        for(j=i-1;j>=0&&(r->mTotalCost)<(*retVec)[j]->mTotalCost;j--)
+        {
+            (*retVec)[j+1]=(*retVec)[j];
+        }
+        (*retVec)[j+1]=r;
+    }
+
     return retVec;
 }
 
@@ -558,8 +571,9 @@ void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec)
         {
             if(!r0.CheckPass(airline->mArrivalAirport))
             {
-                if((r0.mAirlineVec.size()>0&&r0.mAirlineVec[r0.mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp())
+                if(((r0.mAirlineVec.size()>0&&r0.mAirlineVec[r0.mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp())
                         ||r0.mAirlineVec.size()==0) //若不是始发航线，则需要判断前后航班时间是否赶得上
+                   &&airline->GetAirlineDepartureTimeStamp()<airline->GetAirlineArrivalTimeStamp()) //不隔夜
                 {
                     int no=GetAirportByName(airline->mArrivalAirport)->No;
                     if(visit[no]<k*InD[no])    //入度的k倍，经过一个点是入度的10倍。决定BFS精密程度，但是运行时间会增大

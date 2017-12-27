@@ -10,7 +10,7 @@ int main()
 {
     cout << "Hello world!" << endl;
     System* system=new System();
-    system->mAirlineGraph->GetAdvisableRouteWithBFS("长春","上海",0,900);
+    //system->mAirlineGraph->GetAdvisableRouteWithBFS("长春","上海",0,900);
     //system->InsertAirlineInfo();
     //system->mAirlineGraph->ShowAirlineGraph();
     //system->ShowAllAirlineToUser();

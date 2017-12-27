@@ -38,7 +38,7 @@ class AirlineGraph
         vector<Airline*>* GetAirlineByDACity(string departure,string arrival);
         void ShowDACityAirlineByDiscountPrice(string departure,string arrival);
         void ShowDACityAirlineByDepartureTime(string departure,string arrival);
-        vector<Route>* GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime);
+        vector<Route*>* GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime);
 
     protected:
 

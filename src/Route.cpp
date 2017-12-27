@@ -25,9 +25,11 @@ Route& Route::operator=(const Route& r)
 
 void Route::ShowRoute()
 {
+
+    cout<<"Total Price: "<<mTotalCost<<"\t";
     for(vector<Airline*>::iterator it=mAirlineVec.begin(); it!=mAirlineVec.end(); it++)
     {
-        cout<<'['<<(*it)->mAirlineName<<']';
+        cout<<'['<<(*it)->mAirlineName<<"  "<<(*it)->GetPriceAfterDiscount()<<']';
         if(it!=mAirlineVec.end()-1)
         {
             cout<<"->";

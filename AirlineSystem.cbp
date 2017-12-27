@@ -42,6 +42,7 @@
 		<Unit filename="include/MappingUtil.h" />
 		<Unit filename="include/Route.h" />
 		<Unit filename="include/System.h" />
+		<Unit filename="include/TimeUtil.h" />
 		<Unit filename="include/jsonxx.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Airline.cpp" />
@@ -52,6 +53,7 @@
 		<Unit filename="src/MappingUtil.cpp" />
 		<Unit filename="src/Route.cpp" />
 		<Unit filename="src/System.cpp" />
+		<Unit filename="src/TimeUtil.cpp" />
 		<Unit filename="src/jsonxx.cpp" />
 		<Extensions>
 			<code_completion />

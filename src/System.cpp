@@ -6,7 +6,6 @@ System::System()
     mAirlineGraph=new AirlineGraph();
     mBookOrderVector=NULL;
     LoadBookOrder();
-    mAirlineGraph->GetAdvisableRouteWithBFS("长春","上海",0,900);
     MenuDaemon();
 
 }
@@ -487,6 +486,26 @@ void System::UnsubscribeByNo(int no)
     mBookOrderVector->erase(it+no-1);
 }
 
+void System::ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime)
+{
+
+    TimeUtil timeUtil;
+    int dTime=timeUtil.GetTimeStamp(departureTime);
+    int aTime=timeUtil.GetTimeStamp(arrivalTime);
+    vector<Route*>* vec=mAirlineGraph->GetAdvisableRouteWithBFS(departureCity,arrivalCity,dTime,aTime);
+    if(vec->size()==0)
+    {
+        cout<<endl<<"抱歉，无可行航线"<<endl;
+    }else
+    {
+        for(vector<Route*>::iterator it=vec->begin(); it!=vec->end(); it++)
+        {
+            cout<<endl;
+            (*it)->ShowRoute();
+        }
+    }
+}
+
 void System::MenuDaemon()
 {
     ShowMenu(0);
@@ -497,7 +516,7 @@ void System::MenuDaemon()
     while(operation)
     {
         int x,y,z;
-        string s1,s2,s3;
+        string s1,s2,s3,s4;
         switch(operation)
         {
         case 1:
@@ -536,6 +555,9 @@ void System::MenuDaemon()
             }
             break;
         case 8:
+            ShowMenu(4);
+            cin>>s1>>s2>>s3>>s4;
+            ShowAdvisableRoute(s1,s2,s3,s4);
             break;
         case 9:
             break;

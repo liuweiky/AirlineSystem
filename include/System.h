@@ -2,6 +2,7 @@
 #define SYSTEM_H
 #include "AirlineGraph.h"
 #include "BookOrder.h"
+#include "TimeUtil.h"
 #include <fstream>
 
 class System
@@ -25,6 +26,7 @@ class System
         void UnsubscribeByIdNum(string Id); //通过证件号退票
         void UnsubscribeByNo(int no); //通过序号退票
         void MenuDaemon();
+        void ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime);
     protected:
 
     private:
