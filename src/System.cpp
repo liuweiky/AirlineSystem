@@ -70,7 +70,7 @@ void System::InsertAirlineInfo()
     cin>>airline->mCompany;
     cout<<"请输入航班号："<<endl;
     cin>>airline->mAirlineName;
-    if(mAirlineGraph->FindAirlineByName(airline->mAirlineName)!=NULL)
+    if(mAirlineGraph->FindAirlineByName(airline->mAirlineName)->size()!=0)
     {
         cout<<"已存在该航班！"<<endl;
         return;
@@ -90,7 +90,7 @@ void System::InsertAirlineInfo()
     cout<<"请输入容量："<<endl;
     cin>>airline->mCapacity;
     cout<<"请输入当前乘客人数："<<endl;
-    cin>>airline->mCapacity;
+    cin>>airline->mCurrentNumber;
     if(airline->mCapacity<airline->mCurrentNumber)
     {
         cout<<"非法输入！容量小于当前乘客人数！"<<endl;

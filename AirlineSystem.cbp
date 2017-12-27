@@ -38,8 +38,6 @@
 		<Unit filename="include/AirlineGraph.h" />
 		<Unit filename="include/Airport.h" />
 		<Unit filename="include/BookOrder.h" />
-		<Unit filename="include/FileUtil.h" />
-		<Unit filename="include/MappingUtil.h" />
 		<Unit filename="include/Route.h" />
 		<Unit filename="include/System.h" />
 		<Unit filename="include/TimeUtil.h" />
@@ -49,8 +47,6 @@
 		<Unit filename="src/AirlineGraph.cpp" />
 		<Unit filename="src/Airport.cpp" />
 		<Unit filename="src/BookOrder.cpp" />
-		<Unit filename="src/FileUtil.cpp" />
-		<Unit filename="src/MappingUtil.cpp" />
 		<Unit filename="src/Route.cpp" />
 		<Unit filename="src/System.cpp" />
 		<Unit filename="src/TimeUtil.cpp" />
