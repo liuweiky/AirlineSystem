@@ -10,7 +10,7 @@ class TimeUtil
     public:
         TimeUtil();
         virtual ~TimeUtil();
-        static int GetTimeStamp(string time);
+        static int GetTimeStamp(string time);   //string×ªÊ±¼ä´Á
     protected:
 
     private:

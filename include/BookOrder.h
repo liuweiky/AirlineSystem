@@ -9,8 +9,8 @@ class BookOrder
     public:
         BookOrder();
         virtual ~BookOrder();
-        string mName;
-        string mIdNumber;
+        string mName;               //乘客姓名
+        string mIdNumber;           //证件号
         string mAirlineName;        //航班号
         string mCompany;            //航班公司
         string mDepartureCity;      //起飞城市

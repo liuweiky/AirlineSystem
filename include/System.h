@@ -23,19 +23,19 @@ class System
         void UnsubscribeByName(string name); //通过姓名退票
         void UnsubscribeByIdNum(string Id); //通过证件号退票
         void UnsubscribeByNo(int no); //通过序号退票
-        void MenuDaemon();
-        void ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime);
-        void ShowBestAirlineNetwork(string departureCity);
-        void RecommandBestRoute(string departureCity,string arrivalCity);
+        void MenuDaemon();  //菜单守护函数
+        void ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime);   //显示合理路线
+        void ShowBestAirlineNetwork(string departureCity);  //显示最优航线网络
+        void RecommandBestRoute(string departureCity,string arrivalCity);   //推荐航线
     protected:
 
     private:
-        AirlineGraph* mAirlineGraph;
-        vector<BookOrder*>* mBookOrderVector;
-        void LoadBookOrder();
-        int GetBookOrderNum();
+        AirlineGraph* mAirlineGraph;    //航线图
+        vector<BookOrder*>* mBookOrderVector;   //保存订单
+        void LoadBookOrder();   //本地加载订单
+        int GetBookOrderNum();  //订单数目
         Array GenerateBookJson();    //生成json
-        void ShowMenu(int i);
+        void ShowMenu(int i);   //显示菜单
 };
 
 #endif // SYSTEM_H

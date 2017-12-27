@@ -18,15 +18,15 @@ class Airline
         string mAirplaneModel;      //机型
         string mDepartureCity;      //起飞城市
         string mArrivalCity;        //到达城市
-        int mAirportNo;
+        int mAirportNo;             //抵达机场编号
         int mPrice;                 //价格
         int mIntDiscount;           //折扣
         int mCapacity;              //满载人数
         int mCurrentNumber;         //当前人数
         Airline* mNextAirline;      //下一航班
-        int GetPriceAfterDiscount();
-        int GetAirlineDepartureTimeStamp();
-        int GetAirlineArrivalTimeStamp();
+        int GetPriceAfterDiscount();    //获取折后价格
+        int GetAirlineDepartureTimeStamp(); //获取航班出发时间戳
+        int GetAirlineArrivalTimeStamp();   //获取航班抵达时间戳
     protected:
 
     private:
