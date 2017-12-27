@@ -12,6 +12,7 @@ class System
         System();
         virtual ~System();
         void InsertAirlineInfo();   //插入航班信息
+        void RemoveAirline();   //删除航线
         void ShowWelcome();
         void ShowAllAirlineToUser();    //预览已经建立的全部航线的相关信息
         void ShowAirlineByAirport(int no);  //预览某个机场的航班

@@ -106,6 +106,36 @@ void AirlineGraph::InsertAirlineGraph(Airport* airport,Airline* airline)
         line->mNextAirline=airline;
     }
 }
+
+void AirlineGraph::RemoveAirlineGraph(Airline* airline)
+{
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        Airline* line=mAirportHeadArray[i]->mAdjAirline;
+        if(line==airline)
+        {
+            mAirportHeadArray[i]->mAdjAirline=line->mNextAirline;
+            delete line;
+            return;
+        }else
+        {
+            Airline* pline=line;
+            line=line->mNextAirline;
+            while(line!=NULL)
+            {
+                if(line==airline)
+                {
+                    pline->mNextAirline=line->mNextAirline;
+                    delete line;
+                    return;
+                }
+                pline=line;
+                line=line->mNextAirline;
+            }
+        }
+    }
+}
+
 //展示航班
 void AirlineGraph::ShowAirlineGraph()
 {
@@ -193,6 +223,20 @@ void AirlineGraph::InsertAirline(Airline* airline)
         InsertAirlineGraph(dAirport,airline);    //插入到图
         WriteAirlineJson(); //写出，更新航线数据文件
     }
+}
+
+void AirlineGraph::RemoveAirline(Airline* airline)
+{
+    for(vector<Airline*>::iterator it=mAirlineVector->begin();it!=mAirlineVector->end();it++)
+    {
+        if((*it)==airline)
+        {
+            mAirlineVector->erase(it);
+            break;
+        }
+    }
+    RemoveAirlineGraph(airline);
+    WriteAirlineJson();
 }
 
 string AirlineGraph::GetAirportLocation(string airportName)

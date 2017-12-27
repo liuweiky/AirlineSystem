@@ -99,6 +99,61 @@ void System::InsertAirlineInfo()
     cout<<endl<<"航班"<<airline->mAirlineName<<"录入成功！"<<endl;
 }
 
+void System::RemoveAirline()
+{
+    cout<<endl<<"请输入航班号："<<endl;
+    string name;
+    cin>>name;
+    vector<Airline*>* vec=mAirlineGraph->FindAirlineByName(name);
+    if(vec->size()==0)
+    {
+        cout<<endl<<"无记录！"<<endl;
+        return;
+    }else if(vec->size()==1)
+    {
+        mAirlineGraph->RemoveAirline((*vec)[0]);
+        cout<<endl<<"航班"<<name<<"已删除！"<<endl;
+    }else
+    {
+        cout<<endl<<"==========================================="<<endl;
+        cout<<"共有"<<vec->size()<<"个结果:"<<endl;
+        for(vector<Airline*>::iterator it=vec->begin();it!=vec->end();it++)
+        {
+            cout<<"【"<<it-vec->begin()+1<<"】"<<endl;
+            Airline* airline=(*it);
+            cout<<endl;
+            cout<<setw(12)<<"航班号:"<<airline->mAirlineName<<endl;
+            cout<<setw(12)<<"航空公司:"<<airline->mCompany<<endl;
+            cout<<setw(12)<<"出发地:"<<airline->mDepartureCity<<endl;
+            cout<<setw(12)<<"起飞机场:"<<airline->mDepartureAirport<<endl;
+            cout<<setw(12)<<"目的地:"<<airline->mArrivalCity<<endl;
+            cout<<setw(12)<<"着陆机场:"<<airline->mArrivalAirport<<endl;
+            cout<<setw(12)<<"起飞时间:"<<airline->mDepartureTime<<endl;
+            cout<<setw(12)<<"抵达时间:"<<airline->mArrivalTime<<endl;
+            cout<<setw(12)<<"机型:"<<airline->mAirplaneModel<<endl;
+            cout<<setw(12)<<"票价:"<<airline->mPrice<<endl;
+            cout<<setw(12)<<"折扣:"<<airline->mIntDiscount/1000.0<<endl;
+            cout<<setw(12)<<"折后票价:"<<airline->mPrice*(1-airline->mIntDiscount/1000.0)<<endl;
+            cout<<setw(12)<<"载客量:"<<airline->mCapacity<<endl;
+            cout<<setw(12)<<"已售:"<<airline->mCurrentNumber<<endl;
+            cout<<setw(12)<<"余票:"<<airline->mCapacity-airline->mCurrentNumber<<endl;
+            cout<<endl;
+            cout<<"==========================================="<<endl;
+        }
+
+        cout<<"你是想删除？（请输入数字）"<<endl;
+        int i;
+        cin>>i;
+        while(i>vec->size()||i<=0)
+        {
+            cout<<endl<<"输入不合法，请重新输入！"<<endl;
+            cin>>i;
+        }
+        mAirlineGraph->RemoveAirline((*vec)[i-1]);
+        cout<<endl<<"航班"<<name<<"已删除！"<<endl;
+    }
+}
+
 void System::ShowAllAirlineToUser()
 {
     mAirlineGraph->ShowAllAirlineToUser();
@@ -597,23 +652,26 @@ void System::MenuDaemon()
             InsertAirlineInfo();
             break;
         case 2:
-            ShowAllAirlineToUser();
+            RemoveAirline();
             break;
         case 3:
+            ShowAllAirlineToUser();
+            break;
+        case 4:
             ShowMenu(3);
             cin>>s1;
             SearchAirlineByName(s1);
             break;
-        case 4:
+        case 5:
             ShowBookList();
             break;
-        case 5:
+        case 6:
             Book();
             break;
-        case 6:
+        case 7:
             Unsubscribe();
             break;
-        case 7:
+        case 8:
             ShowMenu(1);
             cin>>x;
             if(x==1)
@@ -628,17 +686,17 @@ void System::MenuDaemon()
                 mAirlineGraph->ShowDACityAirlineByDiscountPrice(s1,s2);
             }
             break;
-        case 8:
+        case 9:
             ShowMenu(4);
             cin>>s1>>s2>>s3>>s4;
             ShowAdvisableRoute(s1,s2,s3,s4);
             break;
-        case 9:
+        case 10:
             ShowMenu(5);
             cin>>s1;
             ShowBestAirlineNetwork(s1);
             break;
-        case 10:
+        case 11:
             ShowMenu(6);
             cin>>s1>>s2;
             RecommandBestRoute(s1,s2);
@@ -656,15 +714,16 @@ void System::ShowMenu(int i)
     case 0:
         cout<<endl
         <<"1) 录入航线"<<endl
-        <<"2) 浏览全部航线（！！！慎用，4000多条，信息量略大！！！）"<<endl
-        <<"3）航班号查询航线"<<endl
-        <<"4）查看订单情况"<<endl
-        <<"5）订票"<<endl
-        <<"6）退票"<<endl
-        <<"7）查询城间航线"<<endl
-        <<"8）合理线路设计"<<endl
-        <<"9）航线网络"<<endl
-        <<"10）推荐最优线路"<<endl
+        <<"2) 删除航线"<<endl
+        <<"3) 浏览全部航线（！！！慎用，4000多条，信息量略大！！！）"<<endl
+        <<"4）航班号查询航线"<<endl
+        <<"5）查看订单情况"<<endl
+        <<"6）订票"<<endl
+        <<"7）退票"<<endl
+        <<"8）查询城间航线"<<endl
+        <<"9）合理线路设计"<<endl
+        <<"10）航线网络"<<endl
+        <<"11）推荐最优线路"<<endl
         <<endl
         <<"0）退出"<<endl;
         break;
