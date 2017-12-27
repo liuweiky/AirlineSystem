@@ -65,10 +65,12 @@ void AirlineGraph::LoadAirline()
         airline->mCurrentNumber=AirlineArray.get<Object>(i).get<Number>("当前人数");
         mAirlineVector->push_back(airline);
 
-        Airport* airport=GetAirportByName(airline->mDepartureAirport);
-        if(airport!=NULL)   //判断机场是否存在
+        Airport* dAirport=GetAirportByName(airline->mDepartureAirport);
+        Airport* aAirport=GetAirportByName(airline->mArrivalAirport);
+        if(dAirport!=NULL&&aAirport!=NULL)   //判断机场是否存在
         {
-            InsertAirlineGraph(airport,airline);    //插入到图
+            airline->mAirportNo=aAirport->No;
+            InsertAirlineGraph(dAirport,airline);    //插入到图
         }
     }
     infile.close();
@@ -525,17 +527,15 @@ vector<Route*>* AirlineGraph::GetAdvisableRouteWithBFS(string departure,string a
         }
     }
 
-    //BFS(124,86,InD,visit,mainVec);
-    //BFS(124,87,InD,visit,mainVec);
     for(vector<Route>::iterator it=mainVec->begin();it!=mainVec->end();it++)
     {
         if((*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineDepartureTimeStamp()<arrivalTime
            &&(*it).mAirlineVec[(*it).mAirlineVec.size()-1]->GetAirlineArrivalTimeStamp()<arrivalTime
            &&(*it).mAirlineVec[0]->GetAirlineDepartureTimeStamp()>departureTime
-           &&(*it).mAirlineVec[0]->GetAirlineArrivalTimeStamp()>departureTime)
+           &&(*it).mAirlineVec[0]->GetAirlineArrivalTimeStamp()>departureTime)  //起降时间满足给定条件，并且不出现隔夜的情况
         {
             (*it).SumToatalCost();
-            retVec->push_back(&(*it)); //删除不符合条件的结果
+            retVec->push_back(&(*it)); //筛选符合条件的结果，直接erase删除会出现 std::bad_alloc，原因未知
         }else
         {
             //mainVec->erase(it);
@@ -602,21 +602,11 @@ void AirlineGraph::DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> 
 {
     if(v!=a)    //未到达目的地
     {
-
-        /*for(int j=0;j<routeVec.size();j++)
-        {
-            cout<<routeVec[j]<<"  ";
-        }
-        cout<<endl;*/
-
         visit[v]+=1;
-        //cout<<"visit: "<<visit[v]<<"ind: "<<InD[v]<<endl;
         Airline* airline=mAirportHeadArray[v]->mAdjAirline;
-        //cout<<v<<endl;
         while(airline!=NULL)
         {
-            //cout<<airline->mAirlineName<<endl;
-            int no=GetAirportByName(airline->mArrivalAirport)->No;
+            int no=airline->mAirportNo;
             bool tag=0;
             for(int i=0;i<routeVec.size();i++)
             {
@@ -638,10 +628,6 @@ void AirlineGraph::DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> 
                     newRoute.push_back(airline);
                     DFS(no,a,InD,visit,mainVec,newRoute);
                 }
-                else
-                {
-                    //cout<<"大于入度"<<endl;
-                }
             }
             else if(routeVec[routeVec.size()-1]->GetAirlineArrivalTimeStamp()<airline->GetAirlineDepartureTimeStamp()/*&&airline->GetAirlineDepartureTimeStamp()<airline->GetAirlineArrivalTimeStamp()*/)
             {
@@ -655,27 +641,109 @@ void AirlineGraph::DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> 
                     newRoute.push_back(airline);
                     DFS(no,a,InD,visit,mainVec,newRoute);
                 }
-                else
-                {
-                    //cout<<"大于入度"<<endl;
-                }
             }
             airline=airline->mNextAirline;
         }
     }else   //到达目的地，终止DFS
     {
         visit[v]+=1;
-        /*for(int i=0;i<routeVec.size();i++)
-        {
-            cout<<routeVec[i]->mArrivalAirport<<"->";
-        }
-        cout<<endl;*/
         mainVec->push_back(routeVec);   //将路径保存至 mainVec
-        /*for(int j=0;j<routeVec.size();j++)
+    }
+}
+
+Airline* AirlineGraph::GetMinCostAirline(int f,int t)
+{
+    //cout<<"f\t"<<f<<"\tt\t"<<t<<"\t";
+    Airline* airline=mAirportHeadArray[f]->mAdjAirline;
+    Airline* ret=NULL;
+    int cost=INT_MAX;
+
+    while(airline!=NULL)
+    {
+        if(airline->mAirportNo==t&&airline->GetPriceAfterDiscount()<cost)
         {
-            cout<<routeVec[j]<<"  ";
-        }*/
-        //cout<<endl;
+            cost=airline->GetPriceAfterDiscount();
+            ret=airline;
+        }
+        airline=airline->mNextAirline;
+    }
+    return ret;
+}
+
+Route** AirlineGraph::Dijkstra(int v)
+{
+    int TotalCost[mAirportNumber];
+    int path[mAirportNumber];
+    bool visit[mAirportNumber];
+
+    for(int i=0; i<mAirportNumber; i++)
+    {
+        TotalCost[i]=INT_MAX;
+        path[i]=-1;
+        visit[i]=0;
     }
 
+    TotalCost[v]=0;
+    visit[v]=1;
+
+    Airline* airline=mAirportHeadArray[v]->mAdjAirline;
+    int u=v;
+
+    for(int i=0; i<mAirportNumber-1; i++)
+    {
+        while(airline!=NULL)    //更新长度、路径信息
+        {
+            int k=airline->mAirportNo;
+            if(visit[k]!=1&&TotalCost[k]+airline->GetPriceAfterDiscount()<TotalCost[k])
+            {
+                TotalCost[k]=TotalCost[k]+airline->GetPriceAfterDiscount();
+                path[k]=u;
+            }
+            airline=airline->mNextAirline;
+        }
+        int tmpMin=INT_MAX;
+        for(int j=0; j<mAirportNumber; j++) //决定下一被访问结点
+        {
+            if(TotalCost[j]<tmpMin&&visit[j]==0)
+            {
+                tmpMin=TotalCost[j];
+                u=j;
+            }
+        }
+        visit[u]=1;
+        airline=mAirportHeadArray[u]->mAdjAirline;
+    }
+
+    Route** routeArray=new Route*[mAirportNumber];
+
+    /*for(int i=0;i<mAirportNumber;i++)
+        cout<<"i\t"<<i<<"\t"<<path[i]<<endl;*/
+    for(int i=0;i<mAirportNumber;i++)
+    {
+        if(path[i]!=-1) //是v本身或没有可及路径
+        {
+            stack<int> s;
+            int j=i;
+            while(j!=v)   //回溯路径，压栈
+            {
+                s.push(j);
+                j=path[j];
+            }
+            int prev=v;
+            Route* r=new Route();
+            while(!s.empty())   //弹栈，生成路径
+            {
+                int f=s.top();
+                Airline* airline=GetMinCostAirline(prev,f);
+                r->mAirlineVec.push_back(airline);
+                s.pop();
+                prev=f;
+            }
+            routeArray[i]=r;
+        }else
+        {
+            routeArray[i]=NULL;
+        }
+    }
+    return routeArray;
 }

@@ -4,11 +4,12 @@
 #include "Airline.h"
 #include "jsonxx.h"
 #include "BookOrder.h"
+#include "Route.h"
 #include <fstream>
 #include <iomanip>
 #include <vector>
 #include <queue>
-#include "Route.h"
+#include <stack>
 
 using std::setw;
 using namespace jsonxx;
@@ -40,6 +41,7 @@ class AirlineGraph
         void ShowDACityAirlineByDepartureTime(string departure,string arrival);
         vector<Route*>* GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime);
 
+        Route** Dijkstra(int v);
     protected:
 
     private:
@@ -48,7 +50,8 @@ class AirlineGraph
         void LoadAirline(); //从本地载入航线数据
         void InsertAirlineGraph(Airport* airport,Airline* airline); //在图中插入边（插入航线）
         void DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> >* mainVec,vector<Airline*> routeVec);
-        void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec);
+        void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec);   //广度优先搜索
+        Airline* GetMinCostAirline(int f,int t);
 };
 
 #endif // AIRLINEGRAPH_H

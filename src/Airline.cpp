@@ -3,6 +3,7 @@
 Airline::Airline()
 {
     mNextAirline=NULL;
+    mAirportNo=-1;
 }
 
 Airline::~Airline()

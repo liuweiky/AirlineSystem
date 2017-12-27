@@ -27,6 +27,8 @@ class System
         void UnsubscribeByNo(int no); //Í¨¹ýÐòºÅÍËÆ±
         void MenuDaemon();
         void ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime);
+        void ShowBestAirlineNetwork(string departureCity);
+        void RecommandBestRoute(string departureCity,string arrivalCity);
     protected:
 
     private:

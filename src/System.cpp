@@ -7,7 +7,21 @@ System::System()
     mBookOrderVector=NULL;
     LoadBookOrder();
     MenuDaemon();
-
+    /*Route** r=mAirlineGraph->Dijkstra(0);
+    for(int i=0;i<mAirlineGraph->mAirportNumber;i++)
+    {
+        if(r[i]!=NULL)
+        {
+            cout<<"NULL"<<i<<endl;
+            Route* route=r[i];
+            route->SumToatalCost();
+            route->ShowRoute();
+            cout<<endl;
+        }else
+        {
+            cout<<"NULL"<<i<<endl;
+        }
+    }*/
 }
 
 System::~System()
@@ -488,7 +502,6 @@ void System::UnsubscribeByNo(int no)
 
 void System::ShowAdvisableRoute(string departureCity,string arrivalCity,string departureTime,string arrivalTime)
 {
-
     TimeUtil timeUtil;
     int dTime=timeUtil.GetTimeStamp(departureTime);
     int aTime=timeUtil.GetTimeStamp(arrivalTime);
@@ -498,12 +511,53 @@ void System::ShowAdvisableRoute(string departureCity,string arrivalCity,string d
         cout<<endl<<"抱歉，无可行航线"<<endl;
     }else
     {
+        cout<<endl<<"========================================================================================================================================================================"<<endl;
         for(vector<Route*>::iterator it=vec->begin(); it!=vec->end(); it++)
         {
             cout<<endl;
             (*it)->ShowRoute();
         }
+        cout<<endl<<endl<<"========================================================================================================================================================================"<<endl;
     }
+}
+
+void System::ShowBestAirlineNetwork(string departureCity)
+{
+    vector<int>* vec=mAirlineGraph->GetAirportIdByLocation(departureCity);
+    if(vec->size()==0)
+    {
+        cout<<endl<<"抱歉，该城市暂无可行航线"<<endl;
+    }
+    for(int j=0; j<vec->size(); j++)
+    {
+        cout<<endl<<"========================================================================================================================================================================"<<endl;
+        cout<<endl<<"从【"<<departureCity<<" - "<<mAirlineGraph->mAirportHeadArray[(*vec)[j]]->mAirportName<<"】到："<<endl<<endl;
+        Route** r=mAirlineGraph->Dijkstra((*vec)[j]);   //调用 Dijkstra 算法
+        for(int i=0; i<mAirlineGraph->mAirportNumber; i++)
+        {
+            string outstr="【"+mAirlineGraph->mAirportHeadArray[i]->mLocation+" - "+mAirlineGraph->mAirportHeadArray[i]->mAirportName+"】";
+            if(r[i]!=NULL)
+            {
+                cout<<setw(30)<<outstr;
+                Route* route=r[i];
+                route->SumToatalCost();
+                route->ShowRoute();
+                cout<<endl;
+            }
+            else
+            {
+                cout<<setw(30)<<outstr<<"NULL"<<endl;
+            }
+        }
+    }
+    cout<<endl<<"========================================================================================================================================================================"<<endl;
+
+}
+
+void System::RecommandBestRoute(string departureCity,string arrivalCity)
+{
+    vector<int>* dVec=mAirlineGraph->GetAirportIdByLocation(departureCity);
+    vector<int>* aVec=mAirlineGraph->GetAirportIdByLocation(departureCity);
 }
 
 void System::MenuDaemon()
@@ -560,8 +614,12 @@ void System::MenuDaemon()
             ShowAdvisableRoute(s1,s2,s3,s4);
             break;
         case 9:
+            ShowMenu(5);
+            cin>>s1;
+            ShowBestAirlineNetwork(s1);
             break;
         case 10:
+
             break;
         }
         ShowMenu(0);
@@ -582,7 +640,9 @@ void System::ShowMenu(int i)
         <<"5）订票"<<endl
         <<"6）退票"<<endl
         <<"7）查询城间航线"<<endl
-        <<"8）线路设计"<<endl
+        <<"8）合理线路设计"<<endl
+        <<"9）航线网络"<<endl
+        <<"10）推荐最优线路"<<endl
         <<"0）退出"<<endl;
         break;
     case 1:
@@ -603,6 +663,10 @@ void System::ShowMenu(int i)
     case 4:
         cout<<endl
         <<"请输入出发城市、到达城市、出发时间和到达时间："<<endl;
+        break;
+    case 5:
+        cout<<endl
+        <<"请输入出发城市："<<endl;
         break;
     }
 }

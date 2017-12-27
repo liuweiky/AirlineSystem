@@ -18,6 +18,7 @@ class Airline
         string mAirplaneModel;      //机型
         string mDepartureCity;      //起飞城市
         string mArrivalCity;        //到达城市
+        int mAirportNo;
         int mPrice;                 //价格
         int mIntDiscount;           //折扣
         int mCapacity;              //满载人数
