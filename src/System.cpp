@@ -31,7 +31,7 @@ void System::LoadBookOrder()
 {
     ifstream infile;
     string s;
-    infile.open("Book.json");
+    infile.open("data/Book.json");
     ostringstream tmp;
     tmp<<infile.rdbuf();
     infile.close();
@@ -242,7 +242,7 @@ void System::Book()
         //cout<<bookArray.json();
 
         ofstream outfile;
-        outfile.open("Book.json");
+        outfile.open("data/Book.json");
 
         outfile<<bookArray.json();
         outfile.close();
@@ -338,7 +338,7 @@ void System::Book()
         //cout<<bookArray.json();
 
         ofstream outfile;
-        outfile.open("Book.json");
+        outfile.open("data/Book.json");
 
         outfile<<bookArray.json();
         outfile.close();
@@ -445,7 +445,7 @@ void System::Unsubscribe()
     //cout<<bookArray.json();
 
     ofstream outfile;
-    outfile.open("Book.json");
+    outfile.open("data/Book.json");
 
     outfile<<bookArray.json();
     outfile.close();

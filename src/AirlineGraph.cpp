@@ -16,7 +16,7 @@ void AirlineGraph::LoadAirport()
     Array AirportArray;
     ifstream infile;
     string s;
-    infile.open("Airport.json");
+    infile.open("data/Airport.json");
     ostringstream tmp;
     tmp<<infile.rdbuf();
     s=tmp.str();
@@ -39,7 +39,7 @@ void AirlineGraph::LoadAirline()
     Array AirlineArray;
     ifstream infile;
     string s;
-    infile.open("Airline.json");
+    infile.open("data/Airline.json");
     ostringstream tmp;
     tmp<<infile.rdbuf();
     s=tmp.str();
@@ -162,7 +162,7 @@ Array AirlineGraph::GenerateAirlineJson()
 void AirlineGraph::WriteAirlineJson()
 {
     ofstream outfile;
-    outfile.open("Airline.json");
+    outfile.open("data/Airline.json");
     Array jsonArray=GenerateAirlineJson();
     //cout<<jsonArray.json();
     outfile<<jsonArray.json();
