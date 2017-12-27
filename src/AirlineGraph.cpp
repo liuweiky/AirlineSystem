@@ -211,17 +211,16 @@ void AirlineGraph::InsertAirline(Airline* airline)
 
     if(dAirport==NULL||aAirport==NULL)
     {
-        cout<<endl<<"机场不存在！";
-        return;
-    }else if(dAirport->mLocation!=airline->mDepartureCity||aAirport->mLocation!=airline->mArrivalCity)
-    {
-        cout<<endl<<"机场位置信息不匹配！";
+        cout<<endl<<"机场不存在！"<<endl;
         return;
     }else
     {
+        airline->mDepartureCity=dAirport->mLocation;
+        airline->mArrivalCity=aAirport->mLocation;
         mAirlineVector->push_back(airline);
         InsertAirlineGraph(dAirport,airline);    //插入到图
         WriteAirlineJson(); //写出，更新航线数据文件
+        cout<<endl<<"航班"<<airline->mAirlineName<<"录入成功！"<<endl;
     }
 }
 

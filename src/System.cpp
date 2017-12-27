@@ -76,10 +76,8 @@ void System::InsertAirlineInfo()
     cin>>airline->mArrivalTime;
     cout<<"请输入起飞机场："<<endl;
     cin>>airline->mDepartureAirport;
-    airline->mDepartureCity=mAirlineGraph->GetAirportLocation(airline->mDepartureAirport);
     cout<<"请输入到达机场："<<endl;
     cin>>airline->mArrivalAirport;
-    airline->mArrivalCity=mAirlineGraph->GetAirportLocation(airline->mArrivalAirport);
     cout<<"请输入机型："<<endl;
     cin>>airline->mAirplaneModel;
     cout<<"请输入容量："<<endl;
@@ -96,7 +94,6 @@ void System::InsertAirlineInfo()
     cout<<"请输入折扣（1000%）："<<endl;
     cin>>airline->mIntDiscount;
     mAirlineGraph->InsertAirline(airline);
-    cout<<endl<<"航班"<<airline->mAirlineName<<"录入成功！"<<endl;
 }
 
 void System::RemoveAirline()
