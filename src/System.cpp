@@ -556,8 +556,40 @@ void System::ShowBestAirlineNetwork(string departureCity)
 
 void System::RecommandBestRoute(string departureCity,string arrivalCity)
 {
+
     vector<int>* dVec=mAirlineGraph->GetAirportIdByLocation(departureCity);
-    vector<int>* aVec=mAirlineGraph->GetAirportIdByLocation(departureCity);
+    vector<int>* aVec=mAirlineGraph->GetAirportIdByLocation(arrivalCity);
+    if(dVec->size()==0||aVec->size()==0)
+    {
+        cout<<endl<<"抱歉，无可行航线"<<endl;
+        return;
+    }
+    Route* routeArray[dVec->size()][aVec->size()];
+    for(int i=0;i<dVec->size();i++)
+    {
+        //cout<<"i "<<i<<" "<<(*dVec)[i]<<endl;
+        for(int j=0;j<aVec->size();j++)
+        {
+            //cout<<"j "<<j<<" "<<(*aVec)[j]<<endl;
+            Route** r=mAirlineGraph->Dijkstra((*dVec)[i]);   //调用 Dijkstra 算法
+            r[(*aVec)[j]]->SumToatalCost();
+            routeArray[i][j]=r[(*aVec)[j]];
+        }
+    }
+    Route* best=routeArray[0][0];
+    for(int i=0;i<dVec->size();i++)
+    {
+        //cout<<"i "<<i<<" "<<(*dVec)[i]<<endl;
+        for(int j=0;j<aVec->size();j++)
+        {
+            //cout<<"j "<<j<<" "<<(*aVec)[j]<<endl;
+            if(routeArray[i][j]->mTotalCost<best->mTotalCost)
+            best=routeArray[i][j];
+        }
+    }
+    cout<<endl;
+    best->ShowRoute();
+    cout<<endl;
 }
 
 void System::MenuDaemon()
@@ -619,7 +651,9 @@ void System::MenuDaemon()
             ShowBestAirlineNetwork(s1);
             break;
         case 10:
-
+            ShowMenu(6);
+            cin>>s1>>s2;
+            RecommandBestRoute(s1,s2);
             break;
         }
         ShowMenu(0);
@@ -643,6 +677,7 @@ void System::ShowMenu(int i)
         <<"8）合理线路设计"<<endl
         <<"9）航线网络"<<endl
         <<"10）推荐最优线路"<<endl
+        <<endl
         <<"0）退出"<<endl;
         break;
     case 1:
@@ -667,6 +702,10 @@ void System::ShowMenu(int i)
     case 5:
         cout<<endl
         <<"请输入出发城市："<<endl;
+        break;
+    case 6:
+        cout<<endl
+        <<"请输入出发城市和到达城市："<<endl;
         break;
     }
 }
