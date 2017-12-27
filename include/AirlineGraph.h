@@ -36,12 +36,11 @@ class AirlineGraph
         vector<int>* GetAirportIdByLocation(string loc);    //通过城市获取该城市所有机场的Id
         string GetAirportLocation(string airportName);  //获得机场所在城市
         vector<Airline*>* FindAirlineByName(string name);//通过航班号查找
+        Airline* GetMinCostAirline(int f,int t);
         vector<Airline*>* GetAirlineByDACity(string departure,string arrival);
         void ShowDACityAirlineByDiscountPrice(string departure,string arrival);
         void ShowDACityAirlineByDepartureTime(string departure,string arrival);
         vector<Route*>* GetAdvisableRouteWithBFS(string departure,string arrival,int departureTime,int arrivalTime);
-
-        Route** Dijkstra(int v);
     protected:
 
     private:
@@ -51,7 +50,8 @@ class AirlineGraph
         void InsertAirlineGraph(Airport* airport,Airline* airline); //在图中插入边（插入航线）
         void DFS(int v,int a,int* InD,int* visit,vector< vector<Airline*> >* mainVec,vector<Airline*> routeVec);
         void BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec);   //广度优先搜索
-        Airline* GetMinCostAirline(int f,int t);
+        Route** Dijkstra(int v);
+        friend class System;
 };
 
 #endif // AIRLINEGRAPH_H

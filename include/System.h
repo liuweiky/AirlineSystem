@@ -4,21 +4,19 @@
 #include "BookOrder.h"
 #include "TimeUtil.h"
 #include <fstream>
+#include <time.h>
 
 class System
 {
     public:
         System();
         virtual ~System();
-        AirlineGraph* mAirlineGraph;
-        vector<BookOrder*>* mBookOrderVector;
         void InsertAirlineInfo();   //插入航班信息
+        void ShowWelcome();
         void ShowAllAirlineToUser();    //预览已经建立的全部航线的相关信息
         void ShowAirlineByAirport(int no);  //预览某个机场的航班
         void ShowAirlineByCity(string city);    //预览某个城市的航班
         void SearchAirlineByName(string name);    //通过航班号查看详细信息
-        void LoadBookOrder();
-        int GetBookOrderNum();
         void Book();    //订票
         void ShowBookList();
         void Unsubscribe(); //退票
@@ -32,6 +30,10 @@ class System
     protected:
 
     private:
+        AirlineGraph* mAirlineGraph;
+        vector<BookOrder*>* mBookOrderVector;
+        void LoadBookOrder();
+        int GetBookOrderNum();
         Array GenerateBookJson();    //生成json
         void ShowMenu(int i);
 };

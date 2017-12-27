@@ -4,8 +4,6 @@ AirlineGraph::AirlineGraph()
 {
     LoadAirport();
     LoadAirline();
-    //ShowAirlineGraph();
-    //WriteAirlineJson();
 }
 
 AirlineGraph::~AirlineGraph()

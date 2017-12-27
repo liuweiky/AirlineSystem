@@ -3,30 +3,28 @@
 System::System()
 {
     cout.setf(ios::left);
+    ShowWelcome();
     mAirlineGraph=new AirlineGraph();
+    cout<<endl<<"机场航线数据加载完毕……"<<endl;
     mBookOrderVector=NULL;
     LoadBookOrder();
+    cout<<"订单数据加载完毕……"<<endl;
     MenuDaemon();
-    /*Route** r=mAirlineGraph->Dijkstra(0);
-    for(int i=0;i<mAirlineGraph->mAirportNumber;i++)
-    {
-        if(r[i]!=NULL)
-        {
-            cout<<"NULL"<<i<<endl;
-            Route* route=r[i];
-            route->SumToatalCost();
-            route->ShowRoute();
-            cout<<endl;
-        }else
-        {
-            cout<<"NULL"<<i<<endl;
-        }
-    }*/
 }
 
 System::~System()
 {
     //dtor
+}
+
+void System::ShowWelcome()
+{
+    cout<<"欢迎使用机票预定系统！"<<endl;
+    time_t timep;
+    time (&timep);
+    char timestr[64];
+    strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S",localtime(&timep));
+    cout<<"登录时间："<<timestr<<endl;
 }
 
 void System::LoadBookOrder()
@@ -453,8 +451,6 @@ void System::Unsubscribe()
     outfile.close();
 
     LoadBookOrder();
-
-    //ShowBookList();
 }
 
 void System::UnsubscribeByName(string name)
@@ -567,10 +563,8 @@ void System::RecommandBestRoute(string departureCity,string arrivalCity)
     Route* routeArray[dVec->size()][aVec->size()];
     for(int i=0;i<dVec->size();i++)
     {
-        //cout<<"i "<<i<<" "<<(*dVec)[i]<<endl;
         for(int j=0;j<aVec->size();j++)
         {
-            //cout<<"j "<<j<<" "<<(*aVec)[j]<<endl;
             Route** r=mAirlineGraph->Dijkstra((*dVec)[i]);   //调用 Dijkstra 算法
             r[(*aVec)[j]]->SumToatalCost();
             routeArray[i][j]=r[(*aVec)[j]];
@@ -579,10 +573,8 @@ void System::RecommandBestRoute(string departureCity,string arrivalCity)
     Route* best=routeArray[0][0];
     for(int i=0;i<dVec->size();i++)
     {
-        //cout<<"i "<<i<<" "<<(*dVec)[i]<<endl;
         for(int j=0;j<aVec->size();j++)
         {
-            //cout<<"j "<<j<<" "<<(*aVec)[j]<<endl;
             if(routeArray[i][j]->mTotalCost<best->mTotalCost)
             best=routeArray[i][j];
         }
@@ -601,7 +593,7 @@ void System::MenuDaemon()
 
     while(operation)
     {
-        int x,y,z;
+        int x;
         string s1,s2,s3,s4;
         switch(operation)
         {
