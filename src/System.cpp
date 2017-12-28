@@ -91,7 +91,7 @@ void System::InsertAirlineInfo()
     }
     cout<<"ÇëÊäÈëÆ±¼Û£º"<<endl;
     cin>>airline->mPrice;
-    cout<<"ÇëÊäÈëÕÛ¿Û£¨1000%£©£º"<<endl;
+    cout<<"ÇëÊäÈëÕÛ¿Û£¨¡ë£©£º"<<endl;
     cin>>airline->mIntDiscount;
     mAirlineGraph->InsertAirline(airline);
 }
