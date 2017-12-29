@@ -64,6 +64,7 @@ void System::LoadBookOrder()
 
 void System::InsertAirlineInfo()
 {
+    int airportNo;
     Airline* airline=new Airline();
     cout<<endl;
     cout<<"请输入航空公司："<<endl;
@@ -74,25 +75,60 @@ void System::InsertAirlineInfo()
     cin>>airline->mDepartureTime;
     cout<<"请输入到达时间："<<endl;
     cin>>airline->mArrivalTime;
-    cout<<"请输入起飞机场："<<endl;
-    cin>>airline->mDepartureAirport;
-    cout<<"请输入到达机场："<<endl;
-    cin>>airline->mArrivalAirport;
+
+    cout<<endl;
+    for(int i=0;i<mAirlineGraph->mAirportNumber;i++)
+    {
+        cout<<'['<<setw(3)<<i<<']'<<" "<<setw(20)<<mAirlineGraph->mAirportHeadArray[i]->mAirportName;
+        if((i+1)%8==0)
+        {
+            cout<<endl;
+        }
+    }
+
+    cout<<endl<<endl;
+    cout<<"请选择起飞机场："<<endl;
+    cin>>airportNo;
+    int backup=airportNo;
+    while(airportNo<0||airportNo>=mAirlineGraph->mAirportNumber)
+    {
+        cout<<endl<<"超出范围，请重新输入！"<<endl;
+        cin>>airportNo;
+    }
+    airline->mDepartureAirport=mAirlineGraph->mAirportHeadArray[airportNo]->mAirportName;
+
+    cout<<"请选择到达机场："<<endl;
+    cin>>airportNo;
+    while(airportNo<0||airportNo>=mAirlineGraph->mAirportNumber||airportNo==backup)
+    {
+        cout<<endl<<"超出范围或起降机场相同，请重新输入！"<<endl;
+        cin>>airportNo;
+    }
+    airline->mArrivalAirport=mAirlineGraph->mAirportHeadArray[airportNo]->mAirportName;
+
     cout<<"请输入机型："<<endl;
     cin>>airline->mAirplaneModel;
     cout<<"请输入容量："<<endl;
     cin>>airline->mCapacity;
     cout<<"请输入当前乘客人数："<<endl;
     cin>>airline->mCurrentNumber;
-    if(airline->mCapacity<airline->mCurrentNumber)
+    while(airline->mCapacity<airline->mCurrentNumber)
     {
-        cout<<"非法输入！容量小于当前乘客人数！"<<endl;
-        return;
+        cout<<"容量小于当前乘客人数！请重新输入！"<<endl;
+        cin>>airline->mCurrentNumber;
     }
+
     cout<<"请输入票价："<<endl;
     cin>>airline->mPrice;
     cout<<"请输入折扣（‰）："<<endl;
     cin>>airline->mIntDiscount;
+
+    while(airline->mIntDiscount>=1000)
+    {
+        cout<<"折扣大于1000，请重新输入！"<<endl;
+        cin>>airline->mCurrentNumber;
+    }
+
     mAirlineGraph->InsertAirline(airline);
 }
 
@@ -510,7 +546,7 @@ void System::UnsubscribeByName(string name)
         {
             mAirlineGraph->Unsubscribe(*it);    //必须先在图里取消订单！下面也是！否则删除后迭代器会指向后一个元素
             mBookOrderVector->erase(it);
-            break;
+            return;
         }
     }
     if(it==mBookOrderVector->end())
@@ -528,7 +564,7 @@ void System::UnsubscribeByIdNum(string Id)
         {
             mAirlineGraph->Unsubscribe(*it);
             mBookOrderVector->erase(it);
-            break;
+            return;
         }
     }
     if(it==mBookOrderVector->end())
