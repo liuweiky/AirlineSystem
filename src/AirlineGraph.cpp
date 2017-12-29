@@ -617,7 +617,7 @@ void AirlineGraph::BFS(int f,int a,int* InD,int* visit,vector<Route>* mainVec)
                    &&airline->GetAirlineDepartureTimeStamp()<airline->GetAirlineArrivalTimeStamp()) //不隔夜
                 {
                     int no=GetAirportByName(airline->mArrivalAirport)->No;
-                    if(visit[no]<k*InD[no])    //入度的k倍，经过一个点是入度的10倍。决定BFS精密程度，但是运行时间会增大
+                    if(visit[no]<k*InD[no])    //入度的k倍，经过一个点是入度的1倍。决定BFS精密程度，但是运行时间会增大
                     {
                         Route rNew=r0;
                         rNew.mAirlineVec.push_back(airline);
